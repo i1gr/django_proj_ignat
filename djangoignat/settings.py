@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from credits import PROJECT_SECRET_KEY
+from djangoignat.credits import PROJECT_SECRET_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Local
+    'users.apps.UsersConfig',
+    'news',
+    'service'
 ]
+
+AUTH_USER_MODEL = 'users.Profile'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
