@@ -1,61 +1,49 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import BaseUserManager, AbstractUser
 from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, name, password=None):
+    def create_user(self, email, password=None, **extra_fields):
         """
-        Creates and saves a User with the given email, date of
-        birth and password.
-        """
+                Create and save a User with the given email and password.
+       """
         if not email:
-            raise ValueError('Users must have an email address')
-
-        user = self.model(
-            email=self.normalize_email(email),
-            name=name,
-        )
-
+            raise ValueError(_('The Email must be set'))
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
-        user.save(using=self._db)
+        user.save()
         return user
 
-    def create_superuser(self, email, name, password=None):
+    def create_superuser(self, email, password, **extra_fields):
         """
-        Creates and saves a superuser with the given email, date of
-        birth and password.
+        Create and save a SuperUser with the given email and password.
         """
-        user = self.create_user(
-            email,
-            password=password,
-            name=name,
-        )
-        user.is_customer = False
-        user.save(using=self._db)
-        return user
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError(_('Superuser must have is_staff=True.'))
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError(_('Superuser must have is_superuser=True.'))
+        return self.create_user(email, password, **extra_fields)
 
 
-class Profile(AbstractBaseUser, PermissionsMixin):
-    # email = models.EmailField(
-    #     verbose_name='email',
-    #     max_length=255,
-    #     unique=True,
-    # )
-    # is_customer = models.BooleanField(default=True)
-    # name = models.CharField(max_length=64, verbose_name='name')
-
-    username = models.CharField(max_length=64)
-    email = models.EmailField(_('email address'), unique=True)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(default=timezone.now)
+class Profile(AbstractUser):
+    username = models.CharField(max_length=64, unique=False)
+    email = models.EmailField(
+        _('email address'),
+        unique=True,
+        blank=False,
+        error_messages={
+            'unique': _("A user with that username already exists."),
+        },)
 
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
     class Meta:
@@ -65,4 +53,4 @@ class Profile(AbstractBaseUser, PermissionsMixin):
         return f'Profile:' \
                f'\n\tEmail: {self.email}' \
                f'\n\tName: {self.username}' \
-               f'\n\tIs customer: {self.is_staff}'
+               f'\n\tIs staff: {self.is_staff}'
