@@ -1,0 +1,18 @@
+
+{% extends 'news/base.html' %}
+
+{% block content %}
+    <h1>Sign in</h1>
+       <div class="sign-in-input input">
+            <form action="/account">
+                <label for="email">Email:</label><br>
+                <input class="input-textbox" type="email" id="email" name="email" required autofocus placeholder="Enter your email"><br>
+
+                <label for="password">Password:</label><br>
+                <input class="input-textbox" type="password" id="password" name="password" required autofocus placeholder="Enter your password"><br>
+
+                <input class="button" type="submit" value="Sign in">
+
+            </form>
+        </div>
+{% endblock %}

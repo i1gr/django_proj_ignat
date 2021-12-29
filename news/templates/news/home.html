@@ -1,0 +1,34 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+    <div class="info">
+        <h1>Umbrella Company</h1>
+        <p>
+            An umbrella company is a company that employs agency contractors who work on temporary contract assignments, usually through a recruitment agency in the United Kingdom. Recruitment agencies prefer to issue contracts to a limited company as the agency liability would be reduced.
+        </p>
+        <p>
+            It issues invoices to the recruitment agency (or client) and, when payment of the invoice is made, will typically pay the contractor through PAYE with the added benefit of offsetting some of the income through claiming expenses such as travel, meals, and accommodation.
+        </p>
+    </div>
+
+
+
+    <div class="service">
+        {% for service in services %}
+            <h1>{{ service.name }}</h1>
+
+            <p>
+                {{ service.text }}
+            </p>
+            <p>Run time - {{ service.run_time}}</p>
+            <form action="{{ service.get_absolute_url }}">
+                <button class="button">
+                    {{ service.price }} $
+                </button>
+            </form>
+        {% endfor %}
+
+
+    </div>
+
+{% endblock %}

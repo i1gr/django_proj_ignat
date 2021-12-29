@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from users.models import Profile
 
@@ -6,16 +7,20 @@ from users.models import Profile
 # Create your models here.
 class Services(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(unique=True)
     text = models.TextField()
     price = models.FloatField()
-    run_time = models.DateTimeField()
-    orders = models.ForeignKey('Orders', on_delete=models.CASCADE)
+    run_time = models.DurationField(null=True)
+    orders = models.ForeignKey('Orders', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        ordering = ["-name"]
+        ordering = ["-price"]
 
     def __str__(self):
         return str(self.name) + '\n\t' + str(self.text)
+
+    def get_absolute_url(self):
+        return reverse(viewname='service', kwargs={'service_slug': self.slug})
 
 
 class Orders(models.Model):
@@ -49,7 +54,6 @@ class OrderComments(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
     order = models.OneToOneField(Orders, on_delete=models.SET_NULL, null=True)
-
 
     class Meta:
         ordering = ["-datetime"]

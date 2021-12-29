@@ -1,0 +1,28 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+
+    <div class="header">
+        <h1>{{ title }}</h1>
+    </div>
+    <p class="author">Author: {{ article_data.author.username }}</p>
+    <p class="date">{{ article_data.datetime }}</p>
+    <p class="text">{{ article_data.text }}</p>
+    <p class="stars">Stars {{ article_data.stars }}</p>
+
+    <div class="comments">
+        <form action="">
+            <textarea class="input-textbox" rows = "10" cols = "50" name = "description" required placeholder="Write comment..."></textarea><br>
+            <label for="vehicle2">Stars</label><br>
+            <input type="checkbox" id="star1" name="star1" value="s1">
+            <input type="checkbox" id="star2" name="star1" value="s1">
+            <input type="checkbox" id="star3" name="star1" value="s1">
+            <input type="checkbox" id="star4" name="star1" value="s1">
+            <input type="checkbox" id="star5" name="star1" value="s1"><br>
+            <input class="button" type="submit" value="Submit">
+        </form>
+    </div>
+
+
+
+{% endblock %}
