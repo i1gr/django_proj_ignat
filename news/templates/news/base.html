@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'news/css/base.css' %}" type="text/css" />
+</head>
+<body>
+
+    <nav class="nav">
+        <div class="nav-content">
+            <a class="{% if nav_active == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+            <a class="{% if nav_active == 'news' %}active{% endif %}" href="{% url 'news' %}">News</a>
+            <a class="{% if nav_active == 'account' %}active{% endif %}" href="{% url 'login' %}">Account</a>
+        </div>
+
+    </nav>
+
+
+    <div class="content">
+
+       {% block content %}
+        {% endblock %}
+    </div>
+
+
+
+
+    <div class="footer">
+        <p>The Umbrella Company</p>
+        <p>Clear your sky</p>
+    </div>
+
+</body>
+</html>

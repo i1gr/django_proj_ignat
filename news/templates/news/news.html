@@ -1,0 +1,25 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+
+    <div class="header">
+        <h1>News</h1>
+    </div>
+
+    <div class="news">
+        {% for n in news %}
+            <a class="news-block" href="{{ n.get_absolute_url }}">
+                <div class="preview" href="https://www.bbc.com/news/world-australia-59676772">
+                    <h1>{{ n.title }}</h1>
+                    <p class="date">{{ n.datetime }}</p>
+                    <div class="article">{{ n.text }}</div>
+                </div>
+            </a>
+
+        {% endfor %}
+
+
+
+    </div>
+
+{% endblock %}

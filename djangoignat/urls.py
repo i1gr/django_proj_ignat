@@ -16,6 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from news.views import home, news, article
+from service.views import order, service
+from users.views import login, sign_in, sign_up
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home, name='home'),
+    path('news/', news, name='news'),
+    path('order/', order, name='order'),
+    path('login/', login, name='login'),
+    path('login/sign_in/', sign_in, name='sign_in'),
+    path('login/sign_up/', sign_up, name='sign_up'),
+    path('service/<slug:service_slug>/', service, name='service'),
+    path('news/<slug:article_slug>/', article, name='article')
 ]
