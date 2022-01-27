@@ -1,0 +1,27 @@
+{% extends 'news/base.html' %}
+{% load i18n %}
+{% block content %}
+<div style="margin: 20px 0px;">
+  <form method="post" action=".">
+    {% csrf_token %}
+
+
+    <label>Email:</label><br>
+    {{ form.email }}<br>
+    {{ form.errors.email }}<br>
+    <label>Name:</label><br>
+    {{ form.username }}<br>
+    {{ form.errors.username }}<br>
+    <label>Password:</label><br>
+    {{ form.password1 }}<br>
+    {{ form.errors.password1 }}<br>
+    <label>Password confirmation:</label><br>
+    {{ form.password2 }}<br>
+    {{ form.errors.password2 }}<br>
+
+
+    <input class="button" type="submit" value="Sign in">
+
+  </form>
+</div>
+{% endblock %}

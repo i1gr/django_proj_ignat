@@ -133,3 +133,9 @@ STATICFILES_DIRS = []
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# This is the number of days users will have to activate their accounts after registering.
+# If a user does not activate within that period,
+# the account will remain permanently inactive unless a site administrator manually activates it.
+ACCOUNT_ACTIVATION_DAYS = 7
