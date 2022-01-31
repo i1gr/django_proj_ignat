@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
+from news.forms import AddingNewsForm
 from news.models import News
 from service.models import Services
 
@@ -27,3 +28,23 @@ def article(request, article_slug):
         'article_data': article_data
     }
     return render(request, 'news/article.html', context=context)
+
+
+def add_news(request):
+    user = request.user
+
+    if request.method == "POST":
+        form = AddingNewsForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('news')
+    else:
+        form = AddingNewsForm(user)
+
+    context = {
+        'title': 'Create news',
+        'nav_active': 'news',
+        'form': form,
+    }
+
+    return render(request, 'news/add_news.html', context=context)

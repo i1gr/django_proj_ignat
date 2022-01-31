@@ -50,7 +50,6 @@ class Profile(AbstractUser):
         ordering = ["username"]
 
     def __str__(self):
-        return f'Profile:' \
-               f'\n\tEmail: {self.email}' \
-               f'\n\tName: {self.username}' \
-               f'\n\tIs staff: {self.is_staff}'
+        return f'\n\t{self.email} ' \
+               f'\n\t{self.username} ' \
+               f'\n\tIs staff: {self.is_staff} '

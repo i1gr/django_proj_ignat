@@ -160,6 +160,10 @@ transition: 0.2s;
     border: 2px solid #799FB9;
 }
 
+.input-textbox-90{
+    width: 90%;
+}
+
 /* hr Horizontal Line */
 hr {
     color: #012622;
