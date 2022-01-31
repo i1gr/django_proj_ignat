@@ -8,7 +8,7 @@ from users.models import Profile
 class News(models.Model):
     title = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(unique=True)
-    author = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True,)
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True,)
     datetime = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
     stars = models.FloatField(default=5, blank=True)
