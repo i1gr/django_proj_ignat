@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.urls import path, include
-from django_registration.backends.activation.views import RegistrationView, ActivationView
+from django_registration.backends.activation.views import RegistrationView
 
 from news.views import home, news, article
 from service.views import order, service
@@ -37,14 +37,15 @@ urlpatterns = [
 # registration django-registration
 urlpatterns += [
     path('accounts/register/',
-        RegistrationView.as_view(
-            form_class=MyCustomUserForm
-        ),
-        name='django_registration_register',
-    ),
+         RegistrationView.as_view(
+             form_class=MyCustomUserForm
+         ),
+         name='django_registration_register',
+         ),
+
     path('accounts/',
-        include('django_registration.backends.activation.urls')
-    ),
+         include('django_registration.backends.activation.urls')
+         ),
 ]
 
 # login and reset pass
@@ -54,25 +55,23 @@ urlpatterns += [
         LoginView.as_view(
             template_name="registration/login.html",
             authentication_form=UserLoginForm
-            ),
+        ),
         name='login'),
 
     path(
         'accounts/reset/<uidb64>/<token>/',
         PasswordResetConfirmView.as_view(
             form_class=UserSetPasswordForm
-            ),
+        ),
         name='password_reset'),
+
     path(
         'accounts/password_reset/',
         PasswordResetView.as_view(
             form_class=UserPasswordResetForm
-            ),
+        ),
         name='password_reset'),
-
 
     path('accounts/', include('django.contrib.auth.urls')),
 
 ]
-
-

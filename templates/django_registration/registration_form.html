@@ -1,6 +1,7 @@
 {% extends 'news/base.html' %}
 {% load i18n %}
 {% block content %}
+
 <div style="margin: 20px 0px;">
   <form method="post" action=".">
     {% csrf_token %}
@@ -24,4 +25,5 @@
 
   </form>
 </div>
+
 {% endblock %}
