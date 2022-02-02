@@ -8,19 +8,36 @@
     <p class="author">Author: {{ article_data.author.username }}</p>
     <p class="date">{{ article_data.datetime }}</p>
     <p class="text">{{ article_data.text }}</p>
-    <p class="stars">Stars {{ article_data.stars }}</p>
+    <p class="stars">Stars: {{ article_data.stars }}</p>
+    <hr>
+
+
+    {% if request.user.is_authenticated %}
+    <div class="add-comments">
+        <h3>Comments</h3>
+        <form method="post">
+            {% csrf_token %}
+
+            {% for f in form %}
+                <p>{{ f }}</p>
+                <p> {{ f.errors }}</p>
+            {% endfor %}
+            <button class="button" type="submit">Add Comment</button>
+        </form>
+    </div>
+    {% endif %}
 
     <div class="comments">
-        <form action="">
-            <textarea class="input-textbox" rows = "10" cols = "50" name = "description" required placeholder="Write comment..."></textarea><br>
-            <label for="vehicle2">Stars</label><br>
-            <input type="checkbox" id="star1" name="star1" value="s1">
-            <input type="checkbox" id="star2" name="star1" value="s1">
-            <input type="checkbox" id="star3" name="star1" value="s1">
-            <input type="checkbox" id="star4" name="star1" value="s1">
-            <input type="checkbox" id="star5" name="star1" value="s1"><br>
-            <input class="button" type="submit" value="Submit">
-        </form>
+        <hr>
+        {% for comment in comments %}
+            <div class="comment">
+                <h3>{{ comment.title }}</h3>
+                <p class="author">{{ comment.author.username }}</p>
+                <p class="date">{{ comment.datetime }}</p>
+                <p class="stars">Stars: {{ comment.stars }}</p>
+                <p class="text">{{ comment.text }}</p>
+            </div>
+        {% endfor %}
     </div>
 
 

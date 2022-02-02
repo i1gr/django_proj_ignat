@@ -2,6 +2,17 @@
 
 {% block content %}
 
+
+<!-- is { if request.user.is_authenticated } secure??????????????? -->
+<!-- and i find a bug. {+% in comments raise
+
+emplateSyntaxError at /news/add_news
+Invalid block tag on line 32: 'endblock', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+
+-->
+<!-- I already use @login_required in the views.py but this question is still relevant -->
+{% if request.user.is_staff %}
+
     <div class="header">
         <h1>Create news</h1>
     </div>
@@ -14,7 +25,8 @@
             <p>{{ f }}</p>
             <p> {{ f.errors }}</p>
         {% endfor %}
-        <button type="submit">Add News</button>
+        <button class="button" type="submit">Add News</button>
     </form>
+{% endif %}
 
 {% endblock %}
