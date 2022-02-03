@@ -4,6 +4,9 @@
 
     <div class="header">
         <h1>News</h1>
+        {% if request.user.is_staff %}
+                <a href="{% url 'add_news' %}">Add News</a>
+        {% endif %}
     </div>
 
     <div class="news">

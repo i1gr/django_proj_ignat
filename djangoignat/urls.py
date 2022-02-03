@@ -18,7 +18,7 @@ from django.contrib.auth.views import LoginView, PasswordResetView, PasswordRese
 from django.urls import path, include
 from django_registration.backends.activation.views import RegistrationView
 
-from news.views import home, news, article
+from news.views import home, news, article, add_news
 from service.views import order, service
 from users.views import profile
 
@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('news/', news, name='news'),
+    path('news/add_news', add_news, name='add_news'),
     path('order/', order, name='order'),
     path('service/<slug:service_slug>/', service, name='service'),
     path('news/<slug:article_slug>/', article, name='article'),

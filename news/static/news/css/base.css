@@ -124,7 +124,7 @@ transition: 0.2s;
 }
 .preview:hover {
     transition: 0.2s;
-     border-radius: 12px;
+    border-radius: 12px;
     box-shadow: 0px 6px 11px 2px #6986A8;
     padding: 0 1vh 2vh 1vh;
     margin: 0;
@@ -132,7 +132,7 @@ transition: 0.2s;
 }
 .preview:active {
     transition: 0.2s;
-     border-radius: 12px;
+    border-radius: 12px;
     box-shadow: 0px 2px 4px 0px #6986A8;
     padding: 0 1vh 2vh 1vh;
     margin: 0;
@@ -153,11 +153,17 @@ transition: 0.2s;
     margin: 10px;
     width: 30vw;
     min-width: 350px;
+    font-family: Nunito, sans-serif;
 }
 
 .input-textbox:focus-visible {
     outline: none;
     border: 2px solid #799FB9;
+}
+
+.input-textbox-90{
+    width: 90%;
+    font-family: Nunito, sans-serif;
 }
 
 /* hr Horizontal Line */
@@ -174,3 +180,18 @@ a {
     color: #759EB8;
 }
 
+/* comment */
+.comment {
+    border-radius: 12px;
+    box-shadow: 0px 6px 11px 2px #6986A8;
+    padding: 1vh 2vh;
+    margin: 2.5vh 1vw;
+}
+
+/* add-comments */
+.add-comments {
+    border-radius: 12px;
+    box-shadow: 0px 3px 5px 1px #6986A8;
+    padding: 1vh 2vh;
+    margin: 2.5vh 1vw;
+}
