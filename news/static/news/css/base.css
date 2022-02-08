@@ -46,6 +46,14 @@ body {
 }
 
 
+/* pagination */
+.pagination {
+    text-align: center;
+    padding: 20px;
+    margin: 1vh;
+}
+
+
 /* Footer */
 .footer {
     background-color: #7392B7;
