@@ -1,14 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views import View
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import FormMixin, FormView, CreateView
+from django.views.generic import ListView
 
 from news.forms import AddingNewsForm, NewsCommentForm
-from news.models import News, NewsComments
-from news.services.services import get_unique_slug, get_user_from_instance, change_stars_grading
+from news.models import News
+from news.services.services import get_unique_slug, change_stars_grading
 from service.models import Services
 
 

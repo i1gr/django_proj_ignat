@@ -50,10 +50,12 @@ class NewsCommentForm(forms.ModelForm):
 
     def clean_title(self):
         title = self.cleaned_data['title']
-        if title.istitle():
+        title = title.strip()
+
+        if title[0].isalnum():
+            title = title[0].upper() + title[1:]
             return title
-        raise ValidationError('All words in a title start with a upper case letter,'
-                              ' and the rest of the word are lower case letter')
+        raise ValidationError('The first word must start with a letter or number.')
 
     def clean_text(self):
         text = self.cleaned_data['text']

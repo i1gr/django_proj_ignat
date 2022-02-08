@@ -24,7 +24,7 @@ class News(models.Model):
 
 
 class NewsComments(models.Model):
-    title = models.CharField(max_length=255, unique=True)
+    title = models.CharField(max_length=255)
     author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
