@@ -41,5 +41,5 @@ def change_stars_grading(news_instance):
         for comment in comments:
             stars += comment.stars
 
-    news_instance.stars = stars/len(comments)
+    news_instance.stars = round(stars/len(comments), 2)
     news_instance.save()

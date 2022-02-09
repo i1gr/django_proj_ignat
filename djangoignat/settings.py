@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     # Local
     'users.apps.UsersConfig',
     'news',
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'djangoignat.urls'
@@ -139,3 +141,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # If a user does not activate within that period,
 # the account will remain permanently inactive unless a site administrator manually activates it.
 ACCOUNT_ACTIVATION_DAYS = 7
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

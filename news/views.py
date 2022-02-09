@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView
 
 from news.forms import AddingNewsForm, NewsCommentForm
-from news.models import News, NewsComments
-from news.services.services import get_unique_slug, get_user_from_instance, change_stars_grading
+from news.models import News
+from news.services.services import get_unique_slug, change_stars_grading
 from service.models import Services
 
 
@@ -16,14 +17,17 @@ def home(request):
     return render(request, 'news/home.html', {"title": 'Home page', 'nav_active': 'home', 'services': services})
 
 
-def news(request):
-    all_news = News.objects.all()
-    return render(request, 'news/news.html', {"title": 'News page', 'nav_active': 'news', "news": all_news})
+class NewsPage(ListView):
+    model = News
+    template_name = 'news/news.html'
+    context_object_name = 'news'
+    extra_context = {"title": 'News page', 'nav_active': 'news'}
+    paginate_by = 5
 
 
 def article(request, article_slug):
-    article_data = get_object_or_404(News, slug=article_slug)
-    comments = NewsComments.objects.filter(news=article_data)
+    article_data = get_object_or_404(News.objects.select_related('author'), slug=article_slug)
+    comments = article_data.newscomments_set.all().select_related('author')
 
     user = request.user
     form = None
