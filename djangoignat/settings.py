@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'rest_framework',
     # Local
     'users.apps.UsersConfig',
     'news',
-    'service'
+    'service',
+    'frontend', # enable the frontend app
 ]
 
 AUTH_USER_MODEL = 'users.Profile'
