@@ -2,9 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
+from rest_framework import generics
 
 from news.forms import AddingNewsForm, NewsCommentForm
 from news.models import News
+from news.serializer import NewsSerializer
 from news.services.services import get_unique_slug, change_stars_grading
 from service.models import Services
 
@@ -79,3 +81,15 @@ def add_news(request):
     }
 
     return render(request, 'news/add_news.html', context=context)
+
+
+class NewsProfileView(generics.ListAPIView):
+    serializer_class = NewsSerializer
+
+    def get_queryset(self):
+        current_user = self.request.user
+        print(current_user)
+        if current_user.is_authenticated:
+            return News.objects.filter(author=current_user)
+        return None
+

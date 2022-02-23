@@ -32,7 +32,6 @@ urlpatterns = [
     path('order/', order, name='order'),
     path('service/<slug:service_slug>/', service, name='service'),
     path('news/<slug:article_slug>/', article, name='article'),
-    path('accounts/profile/', profile, name='profile'),
 ]
 
 # registration django-registration
@@ -80,4 +79,9 @@ urlpatterns += [
 # debug toolbar
 urlpatterns += [
     path('__debug__/', include('debug_toolbar.urls')),
+]
+
+# frontend
+urlpatterns += [
+    path('', include('frontend.urls')),
 ]

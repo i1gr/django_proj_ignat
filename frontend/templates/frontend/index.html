@@ -1,0 +1,16 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+
+    <H3>Hello, it is React Page</H3>
+    <div id="app">
+        <!-- React will load here -->
+    </div>
+
+{% endblock %}
+
+
+{% block loadjs %}
+    {% load static %}
+    <script src="{% static 'frontend/main.js' %}"></script>
+{% endblock %}
