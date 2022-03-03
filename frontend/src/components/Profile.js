@@ -14,27 +14,9 @@ export default class Profile extends Component {
             test_data: "have not got a test data",
             articles: Array(),
         };
-        this.getProfileDetails();
     }
 
-    getProfileDetails(){
-        fetch('/prof/?format=json').then((response) =>
-            response.json()).then((data) => {
-                if (typeof data[0] !== 'undefined' && data[0] !== null){
-                    this.setState({
-                        test_data: JSON.stringify(data, null, 2),
 
-                        username: data[0].username,
-                        email: data[0].email,
-                        is_staff: data[0].is_staff,
-                    });
-                } else {
-                    this.setState({
-                        test_data: "AnonymousUser",
-                        });
-                };
-        });
-    }
 
     render(){
         return(
