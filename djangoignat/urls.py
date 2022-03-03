@@ -85,3 +85,8 @@ urlpatterns += [
 urlpatterns += [
     path('', include('frontend.urls')),
 ]
+
+# services
+urlpatterns += [
+    path('', include('service.urls')),
+]

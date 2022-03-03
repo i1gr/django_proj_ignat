@@ -1,10 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from service.models import Services
+from rest_framework import generics
 
-# Create your views here.
-# def service(request):
-# 	return render(request, 'service/service.html', {'title': f'Service {1}', 'nav_active': 'None'})
+from service.serializer import ServicesSerializerWithoutOrders
+
 
 def order(request):
 	return render(request, 'service/order.html', {'title': f'Service {1}', 'nav_active': 'None'})
@@ -23,3 +23,9 @@ def service(request, service_slug):
 		'service_data': service_data
 	}
 	return render(request, 'service/service.html', context=context)
+
+
+class ServicesWithoutOrders(generics.RetrieveAPIView):
+	queryset = Services.objects.all()
+	serializer_class = ServicesSerializerWithoutOrders
+	lookup_field = 'slug'

@@ -10,7 +10,7 @@ export default class ProfileNews extends Component {
     }
 
     getProfileNews(){
-        fetch('/mynews/?format=json').then((response) =>
+        fetch('/api/mynews/?format=json').then((response) =>
             response.json())
                 .then((data) => {
                     if (typeof data[0] !== 'undefined' && data[0] !== null){

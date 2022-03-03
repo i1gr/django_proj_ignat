@@ -1,18 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { render } from "react-dom";
+import ProfileNews from "./ProfileNews";
+import ProfileDetails from "./ProfileDetails";
 
-export default class ProfileDetails extends Component {
+
+export default class Profile extends Component {
     constructor(props){
         super(props);
         this.state = {
             username: "unknown",
             email: "unknown",
             is_staff: false,
-        }
+            test_data: "have not got a test data",
+            articles: Array(),
+        };
         this.getProfileDetails();
     }
 
     getProfileDetails(){
-        fetch('/api/prof/?format=json').then((response) =>
+        fetch('/prof/?format=json').then((response) =>
             response.json()).then((data) => {
                 if (typeof data[0] !== 'undefined' && data[0] !== null){
                     this.setState({
@@ -33,18 +39,9 @@ export default class ProfileDetails extends Component {
     render(){
         return(
         <div>
-            <h1> Hello, {this.state.username}!</h1>
-            <h3> It is your profile page. </h3>
-            <p>Email: {this.state.email}</p>
-            <p>{(() => {
-                    if (this.state.is_staff){
-                        return "You are staff."
-                    }
-                    return "You are ordinary user"
-                })()
-            }</p>
+            <ProfileDetails />
+            <ProfileNews />
         </div>
         );
     }
 }
-

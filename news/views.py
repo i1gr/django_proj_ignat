@@ -83,7 +83,7 @@ def add_news(request):
     return render(request, 'news/add_news.html', context=context)
 
 
-class NewsProfileView(generics.ListAPIView):
+class NewsInProfileView(generics.ListAPIView):
     serializer_class = NewsSerializer
 
     def get_queryset(self):
