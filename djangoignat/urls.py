@@ -19,8 +19,7 @@ from django.urls import path, include
 from django_registration.backends.activation.views import RegistrationView
 
 from news.views import home, add_news, NewsPage, article
-from service.views import order, service
-from users.views import profile
+
 
 from users.forms import UserLoginForm, UserPasswordResetForm, UserSetPasswordForm, MyCustomUserForm
 
@@ -29,8 +28,6 @@ urlpatterns = [
     path('', home, name='home'),
     path('news/', NewsPage.as_view(), name='news'),
     path('news/add_news', add_news, name='add_news'),
-    path('order/', order, name='order'),
-    path('service/<slug:service_slug>/', service, name='service'),
     path('news/<slug:article_slug>/', article, name='article'),
 ]
 

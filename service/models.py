@@ -11,7 +11,7 @@ class Services(models.Model):
     text = models.TextField()
     price = models.FloatField()
     run_time = models.DurationField(null=True)
-    orders = models.ForeignKey('Orders', on_delete=models.CASCADE, null=True, blank=True)
+    # orders = models.ForeignKey('Orders', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         ordering = ["-price"]
@@ -20,7 +20,7 @@ class Services(models.Model):
         return str(self.name) + '\n\t' + str(self.text)
 
     def get_absolute_url(self):
-        return reverse(viewname='service', kwargs={'service_slug': self.slug})
+        return reverse(viewname='make_order', kwargs={'service_slug': self.slug})
 
 
 class Orders(models.Model):
@@ -30,14 +30,14 @@ class Orders(models.Model):
         DONE = 'DN', _('Done')
 
     name = models.CharField(max_length=255)
-    service = models.OneToOneField(Services, on_delete=models.SET_NULL, null=True, related_name='+')
-    customer = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True, related_name='+')
-    executor = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True, related_name='+')
+    service = models.ForeignKey(Services, on_delete=models.SET_NULL, null=True)
+    customer = models.ForeignKey(Profile, related_name='customer', on_delete=models.SET_NULL, null=True)
+    executor = models.ForeignKey(Profile, related_name='executor', on_delete=models.SET_NULL, null=True)
     koban_type = models.CharField(max_length=2, choices=KobunType.choices, default=KobunType.DO)
     data_start = models.DateTimeField(auto_now_add=True)
-    data_end = models.DateTimeField()
+    data_end = models.DateTimeField(null=True)
     text = models.TextField()
-    comments = models.ForeignKey('OrderComments', on_delete=models.CASCADE)
+    # comments = models.ForeignKey('OrderComments', on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["-name"]
@@ -53,7 +53,7 @@ class OrderComments(models.Model):
     author = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
-    order = models.OneToOneField(Orders, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(to='Orders', on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ["-datetime"]

@@ -6,7 +6,7 @@ import ProfileCustomerOrders from "./ProfileCustomerOrders";
 import ProfileExecutorOrders from "./ProfileExecutorOrders";
 
 
-export default class Profile extends Component {
+export default class AdminProfile extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -24,7 +24,9 @@ export default class Profile extends Component {
         return(
         <div>
             <ProfileDetails />
+            <ProfileExecutorOrders />
             <ProfileCustomerOrders />
+            <ProfileNews />
         </div>
         );
     }

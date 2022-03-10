@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 
 import Profile from "./Profile";
+import AdminProfile from "./AdminProfile";
+import Service from "./Service";
 
 class App extends Component {
     render(){
@@ -17,7 +19,8 @@ class App extends Component {
             <BrowserRouter>
             <Routes>
                 <Route path="/accounts/profile/" element={<Profile/>} />
-
+                <Route path="/accounts/admin-profile/" element={<AdminProfile/>} />
+                <Route path="/accounts/service/:slug" element={<Service/>} />
             </Routes>
             </BrowserRouter>
             </div>

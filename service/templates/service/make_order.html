@@ -1,0 +1,22 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+
+    <div class="tb-margin">
+        <H1>{{ service_data.name }}</H1>
+        <p>{{ service_data.text }}</p>
+        <p class="date">Average order waiting time is {{ service_data.run_time }}</p>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+
+        {% for f in form %}
+            <p>{{ f.label }}:</p>
+            <p>{{ f }}</p>
+            <p> {{ f.errors }}</p>
+        {% endfor %}
+
+        <button class="button" type="submit">Make Order</button>
+    </form>
+
+{% endblock %}
