@@ -28,9 +28,6 @@ def is_slug_unique(instance, slug):
 
 def get_user_from_instance(user_instance):
     obj = Profile.objects.get(email=user_instance.email)
-    print(obj)
-    print(obj.id)
-    print(type(obj))
     return obj
 
 
