@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-from djangoignat.credits import PROJECT_SECRET_KEY
+
+""" project credits. See file_example.py """
+import djangoignat.credits as proj_credits
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = PROJECT_SECRET_KEY
+SECRET_KEY = proj_credits.PROJECT_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,11 +90,11 @@ WSGI_APPLICATION = 'djangoignat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_proj_ignat_db',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': proj_credits.DB_NAME,
+        'USER': proj_credits.DB_USER,
+        'PASSWORD': proj_credits.DB_PASSWORD,
+        'HOST': proj_credits.DB_HOST,
+        'PORT': proj_credits.DB_PORT,
     }
 }
 
