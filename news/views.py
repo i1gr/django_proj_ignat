@@ -16,8 +16,6 @@ from service.models import Services
 
 def home(request):
     services = Services.objects.all()
-    print('-'*100)
-    print(services[0].get_absolute_url())
     return render(request, 'news/home.html', {"title": 'Home page', 'nav_active': 'home', 'services': services})
 
 
@@ -90,7 +88,6 @@ class NewsInProfileView(generics.ListAPIView):
 
     def get_queryset(self):
         current_user = self.request.user
-        print(current_user)
         if current_user.is_authenticated:
             return News.objects.filter(author=current_user)
         return None

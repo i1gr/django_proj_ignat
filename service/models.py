@@ -11,7 +11,6 @@ class Services(models.Model):
     text = models.TextField()
     price = models.FloatField()
     run_time = models.DurationField(null=True)
-    # orders = models.ForeignKey('Orders', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         ordering = ["-price"]
@@ -37,7 +36,6 @@ class Orders(models.Model):
     data_start = models.DateTimeField(auto_now_add=True)
     data_end = models.DateTimeField(null=True)
     text = models.TextField()
-    # comments = models.ForeignKey('OrderComments', on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["-name"]
