@@ -1,29 +1,44 @@
 # I don't know how to name this python file :((((((((
 from random import randrange
 
+import django
+from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 
 from news.models import NewsComments
 from users.models import Profile
 
 
-def get_unique_slug(instance, slug=None):
+def get_unique_slug(instance: django.db.models.base.ModelBase, field_to_slug_gen: str, slug=None) -> str:
+    """Return unique slug. field_to_slug_gen is the field that is used to generate slug"""
+    print(f"{type(instance)=}")
+    print(f"{type(field_to_slug_gen)=}")
     if slug:
         slug += str(randrange(10))
     else:
-        slug = slugify(instance.title)
+        slug = slugify(field_to_slug_gen)
 
-    if is_slug_unique(instance, slug):
+    if _is_slug_unique(instance, slug):
         return slug
 
     return get_unique_slug(instance, slug)
 
 
-def is_slug_unique(instance, slug):
+def _is_slug_unique(instance: django.db.models.base.ModelBase, slug: str) -> bool:
     obj = type(instance).objects.filter(slug=slug)
     if obj:
         return False
     return True
+
+
+def get_clean_title(title: str) -> str:
+    """Return cleaned title or raise ValidationError <The first word must start with a letter or number.>"""
+    title = title.strip()
+
+    if title[0].isalnum():
+        title = title[0].upper() + title[1:]
+        return title
+    raise ValidationError('The first word must start with a letter or number.')
 
 
 def get_user_from_instance(user_instance):

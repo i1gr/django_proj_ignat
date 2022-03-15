@@ -1,0 +1,37 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+
+    <div class="header">
+        <h1>{{ title }}</h1>
+    </div>
+    <h3>{{order_data.get_kanban_type_display}}</h3>
+
+    {% if request.user.is_staff %}
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <p>{{ kanban_form }}<button class="button" type="submit">Change</button></p>
+            <p> {{ kanban_form.errors }}</p>
+        </form>
+    </div>
+    {% endif %}
+
+    <p class="date">Order date {{order_data.data_start}}</p>
+    <p class="date">Estimated order completion date {{order_data.data_end}}</p>
+    <p>Executor: {{order_data.executor}}</p>
+
+    {% if request.user.is_staff %}
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <p>{{ executor_form }}<button class="button" type="submit">Change</button></p>
+            <p> {{ executor_form.errors }}</p>
+        </form>
+    </div>
+    {% endif %}
+    <p>Customer: {{order_data.customer}}</p>
+    <p>{{order_data.text}}</p>
+    <hr>
+
+{% endblock %}

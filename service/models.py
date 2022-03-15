@@ -23,7 +23,7 @@ class Services(models.Model):
 
 
 class Orders(models.Model):
-    class KobunType(models.TextChoices):
+    class KanbanType(models.TextChoices):
         DO = 'DO', _('Do')
         INPROCESS = 'IN', _('In process')
         DONE = 'DN', _('Done')
@@ -32,18 +32,21 @@ class Orders(models.Model):
     service = models.ForeignKey(Services, on_delete=models.SET_NULL, null=True)
     customer = models.ForeignKey(Profile, related_name='customer', on_delete=models.SET_NULL, null=True)
     executor = models.ForeignKey(Profile, related_name='executor', on_delete=models.SET_NULL, null=True)
-    koban_type = models.CharField(max_length=2, choices=KobunType.choices, default=KobunType.DO)
+    kanban_type = models.CharField(max_length=2, choices=KanbanType.choices, default=KanbanType.DO)
     data_start = models.DateTimeField(auto_now_add=True)
     data_end = models.DateTimeField(null=True)
     text = models.TextField()
 
     class Meta:
-        ordering = ["-name"]
+        ordering = ["-data_start"]
 
     def __str__(self):
         return f'Order {self.name}' \
                f'\n\tCustomer: {self.customer}' \
                f'\n\tExecutor: {self.executor}'
+
+    def get_absolute_url(self):
+        return reverse(viewname='order', kwargs={'order_id': self.pk})
 
 
 class OrderComments(models.Model):

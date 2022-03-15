@@ -68,7 +68,7 @@ def add_news(request):
         form = AddingNewsForm(user, request.POST)
         if form.is_valid():
             new_news = form.save(commit=False)
-            new_news.slug = get_unique_slug(new_news)
+            new_news.slug = get_unique_slug(new_news, new_news.title)
             new_news.save()
             return redirect('news')
     else:

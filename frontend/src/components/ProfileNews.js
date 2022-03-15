@@ -34,11 +34,16 @@ export default class ProfileNews extends Component {
         </a>)
 
         return(
-            <div>{(() => {
-                if (this.state.articles.length >  0){
-                    return <div style={{margin: "10% 5%"}}><h2>Your Articles</h2><hr/>{articles}</div>
-                }
-                })()}
+            <div>
+                <h2>Your Articles</h2>
+                <hr/>
+
+                <div>{(() => {
+                    if (this.state.articles.length >  0){
+                        return <div style={{margin: "10% 5%"}}>{articles}</div>
+                    }
+                    })()}
+                </div>
             </div>
         );
     }

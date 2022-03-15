@@ -1,7 +1,10 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+from service.services import get_choices_from_query
+from users.models import Profile
 from .models import News, NewsComments
+from .services.services import get_clean_title
 
 
 class AddingNewsForm(forms.ModelForm):
@@ -9,6 +12,7 @@ class AddingNewsForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['author'].empty_label = "Unknown"
         self.fields['author'].initial = user
+        self.fields['author'].choices = get_choices_from_query(Profile, {"is_staff": "True"})
     
     class Meta:
         model = News
@@ -20,11 +24,7 @@ class AddingNewsForm(forms.ModelForm):
         }
 
     def clean_title(self):
-        title = self.cleaned_data['title']
-        if title.istitle():
-            return title
-        raise ValidationError('All words in a title start with a upper case letter,'
-                              ' and the rest of the word are lower case letter')
+        return get_clean_title(self.cleaned_data['title'])
 
 
 class NewsCommentForm(forms.ModelForm):
@@ -49,13 +49,7 @@ class NewsCommentForm(forms.ModelForm):
         }
 
     def clean_title(self):
-        title = self.cleaned_data['title']
-        title = title.strip()
-
-        if title[0].isalnum():
-            title = title[0].upper() + title[1:]
-            return title
-        raise ValidationError('The first word must start with a letter or number.')
+        return get_clean_title(self.cleaned_data['title'])
 
     def clean_text(self):
         text = self.cleaned_data['text']
