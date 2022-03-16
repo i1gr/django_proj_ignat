@@ -34,6 +34,7 @@ export default class AdminProfile extends Component {
             <div style={{margin: "5% 0%"}}>
                 <a href="/news/add_news" className="button">Create new article</a>
                 <a href="/service/add_service/" className="button">Create new service</a>
+                <a href="/kanban/" className="button">Kanban board</a>
             </div>
 
             <div>

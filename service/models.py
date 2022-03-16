@@ -27,6 +27,7 @@ class Orders(models.Model):
         DO = 'DO', _('Do')
         INPROCESS = 'IN', _('In process')
         DONE = 'DN', _('Done')
+        ARCHIVE = 'AR', _('Archive')
 
     name = models.CharField(max_length=255)
     service = models.ForeignKey(Services, on_delete=models.SET_NULL, null=True)

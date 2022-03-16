@@ -43,22 +43,6 @@ export default class ProfileCustomerOrders extends Component {
     }
 
     render(){
-        const orders = this.state.orders.map((data) =>
-            <a href={data.url} className="news-block">
-                <div className="order preview-orders">
-                    <h1>{data.name}</h1>
-                    <h3>{data.koban_type_str}</h3>
-                    <p className="date">Order date {data.data_start}</p>
-                    <p className="date">Estimated order completion date {data.data_end}</p>
-                    <p>Executor: {data.executor}</p>
-                    <p>{data.text}</p>
-                </div>
-            </a>
-        );
-
-
-
-
         const orders_do = this.state.orders.filter((data) => data.kanban_type === 'DO')
         const do_column = orders_do.map((data) =>
         <a href={data.url} className="news-block">
@@ -165,12 +149,6 @@ export default class ProfileCustomerOrders extends Component {
             </div>
 
 
-            <div>{(() => {
-                if (this.state.orders.length >  0){
-                    return <div style={{margin: "10% 5%"}}>{orders}</div>
-                }
-                })()}
-            </div>
        </div>
         );
     }

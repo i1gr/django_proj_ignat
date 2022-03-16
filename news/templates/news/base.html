@@ -24,7 +24,7 @@
     </nav>
 
 
-    <div class="content">
+    <div class="{% if block_content != 'full_screen' %}content{% endif %}">
 
        {% block content %}
         {% endblock %}

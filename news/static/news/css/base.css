@@ -221,3 +221,15 @@ a {
     padding: 1vh 2vh;
     margin: 2.5vh 1vw;
 }
+
+/* 4 rows */
+.column {
+  float: left;
+  width: 25%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}

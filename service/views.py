@@ -67,24 +67,45 @@ class OrdersApiForExecutorsWithoutDone(generics.ListAPIView):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = None
 
-    def get_queryset(self) -> QuerySet | None:
+    def get_queryset(self) -> QuerySet:
         current_user = self.request.user
         if current_user.is_staff:
-            return Orders.objects.filter(~Q(kanban_type="DN") & (Q(executor=current_user) | Q(executor=None))) \
+            return Orders.objects.filter(~Q(kanban_type="DN") & ~Q(kanban_type="AR") & (Q(executor=current_user) | Q(executor=None))) \
                 .select_related('executor', 'customer')
-        return None
+        raise PermissionDenied
 
 
-class OrdersApiKanbanDone(generics.ListAPIView):
+class OrdersApiKanbanAll(generics.ListAPIView):
     serializer_class = OrdersSerializer
     filter_backends = [filters.OrderingFilter]
-    ordering_fields = '__all__'
 
-    def get_queryset(self) -> QuerySet | None:
+    def get_queryset(self) -> QuerySet:
+        current_user = self.request.user
+        if current_user.is_staff:
+            return Orders.objects.all()
+        raise PermissionDenied
+
+
+class OrdersApiKanbanForCustomer(generics.ListAPIView):
+    serializer_class = OrdersSerializer
+    filter_backends = [filters.OrderingFilter]
+
+    def get_queryset(self) -> QuerySet:
         current_user = self.request.user
         if current_user.is_authenticated:
-            return Orders.objects.filter(kanban_type="DN")
-        return None
+            return Orders.objects.filter(customer=current_user)
+        raise PermissionDenied
+
+
+class OrdersApiKanbanForExecutor(generics.ListAPIView):
+    serializer_class = OrdersSerializer
+    filter_backends = [filters.OrderingFilter]
+
+    def get_queryset(self) -> QuerySet:
+        current_user = self.request.user
+        if current_user.is_staff:
+            return Orders.objects.filter(executor=current_user)
+        raise PermissionDenied
 
 
 def order_page(request, order_id):
