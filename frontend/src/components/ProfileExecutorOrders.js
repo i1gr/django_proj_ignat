@@ -11,7 +11,6 @@ export default class ProfileExecutorOrders extends Component {
     }
 
     getOrders(){
-        console.log('work')
         fetch(this.state.url_api).then((response) =>
             response.json()).then((data) => {
                 for (const new_order of data){
