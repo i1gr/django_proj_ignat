@@ -46,10 +46,10 @@ export default class ProfileCustomerOrders extends Component {
         const orders_do = this.state.orders.filter((data) => data.kanban_type === 'DO')
         const do_column = orders_do.map((data) =>
         <a href={data.url} className="news-block">
-            <div className="order preview-orders">
+            <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
                 <h1>{data.name}</h1>
                 <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}, Customer: {data.customer}</h6>
+                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
             </div>
         </a>
         );
@@ -57,10 +57,10 @@ export default class ProfileCustomerOrders extends Component {
         const orders_in = this.state.orders.filter((data) => data.kanban_type === 'IN')
         const in_column = orders_in.map((data) =>
         <a href={data.url} className="news-block">
-            <div className="order preview-orders">
+            <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
                 <h1>{data.name}</h1>
                 <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}, Customer: {data.customer}</h6>
+                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
             </div>
         </a>
         );
@@ -68,10 +68,10 @@ export default class ProfileCustomerOrders extends Component {
         const orders_done = this.state.orders.filter((data) => data.kanban_type === 'DN')
         const done_column = orders_done.map((data) =>
         <a href={data.url} className="news-block">
-            <div className="order preview-orders">
+            <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
                 <h1>{data.name}</h1>
                 <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}, Customer: {data.customer}</h6>
+                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
             </div>
         </a>
         );
@@ -79,10 +79,10 @@ export default class ProfileCustomerOrders extends Component {
         const orders_ar = this.state.orders.filter((data) => data.kanban_type === 'AR')
         const ar_column = orders_ar.map((data) =>
         <a href={data.url} className="news-block">
-            <div className="order preview-orders">
+            <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
                 <h1>{data.name}</h1>
                 <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}, Customer: {data.customer}</h6>
+                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
             </div>
         </a>
         );

@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from news.services.services import get_clean_title
-from .models import Orders, Services
+from .models import Orders, Services, OrderComments
 from users.models import Profile
 from .services import get_choices_from_query
 
@@ -25,7 +25,7 @@ class KanbanSelectForm(forms.ModelForm):
         model = Orders
         fields = ['kanban_type']
         widgets = {
-            'kanban_type': forms.Select(),
+            'kanban_type': forms.Select(attrs={'class': "input-textbox"}),
         }
 
 
@@ -39,7 +39,7 @@ class ExecutorSelectForm(forms.ModelForm):
         model = Orders
         fields = ['executor']
         widgets = {
-            'executor': forms.Select(),
+            'executor': forms.Select(attrs={'class': "input-textbox"}),
         }
 
 
@@ -56,3 +56,12 @@ class AddServiceForm(forms.ModelForm):
 
     def clean_name(self):
         return get_clean_title(self.cleaned_data['name'])
+
+
+class OrderCommentsForm(forms.ModelForm):
+    class Meta:
+        model = OrderComments
+        fields = ['text']
+        widgets = {
+            'text': forms.Textarea(attrs={'class': "input-textbox input-textbox-150"}),
+        }

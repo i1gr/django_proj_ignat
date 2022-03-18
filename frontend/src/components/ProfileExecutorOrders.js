@@ -37,7 +37,7 @@ export default class ProfileExecutorOrders extends Component {
     render(){
         const orders = this.state.orders.map((data) =>
         <a href={data.url} className="news-block">
-            <div className="order preview-orders">
+            <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
                 <h1>{data.name}</h1>
                 <h3>{data.kanban_type_str}</h3>
                 <p className="date">Order date {data.data_start}</p>

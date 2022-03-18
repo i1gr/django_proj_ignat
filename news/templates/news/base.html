@@ -14,7 +14,12 @@
             <a class="{% if nav_active == 'news' %}active{% endif %}" href="{% url 'news' %}">News</a>
 
             {% if request.user.is_authenticated %}
-                <a class="{% if nav_active == 'account' %}active{% endif %}" href="{% url 'profile' %}">Account</a>
+                <a class="{% if nav_active == 'account' %}active{% endif %} notification" href="{% url 'profile' %}">
+                    <span>Account</span>
+                    {% if notifications_count > 0 %}
+                        <span class="badge">{{ notifications_count }}</span>
+                    {% endif %}
+                </a>
                 <a href="{% url 'logout' %}">Logout</a>
             {% else %}
                 <a class="{% if nav_active == 'account' %}active{% endif %}" href="{% url 'login' %}">Account</a>

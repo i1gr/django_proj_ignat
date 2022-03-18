@@ -37,6 +37,7 @@ class Orders(models.Model):
     data_start = models.DateTimeField(auto_now_add=True)
     data_end = models.DateTimeField(null=True)
     text = models.TextField()
+    is_read = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-data_start"]
@@ -51,8 +52,7 @@ class Orders(models.Model):
 
 
 class OrderComments(models.Model):
-    title = models.CharField(max_length=255, unique=True)
-    author = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
     order = models.ForeignKey(to='Orders', on_delete=models.CASCADE, null=True)
@@ -61,4 +61,4 @@ class OrderComments(models.Model):
         ordering = ["-datetime"]
 
     def __str__(self):
-        return str(self.title) + '\n\t' + str(self.text)
+        return str(self.text)

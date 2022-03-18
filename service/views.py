@@ -3,20 +3,29 @@ from django.db.models import QuerySet, Q
 from django.shortcuts import render, get_object_or_404, redirect
 
 from news.services.services import get_unique_slug
-from service.forms import OrderForm, KanbanSelectForm, ExecutorSelectForm, AddServiceForm
+from service.forms import OrderForm, KanbanSelectForm, ExecutorSelectForm, AddServiceForm, OrderCommentsForm
 from service.models import Services, Orders
 from rest_framework import generics, filters
 
 from service.serializer import ServicesSerializerWithoutOrders, OrdersSerializer
+from service.services import make_read, make_unread, get_notifications_count
 
 
 def make_order_successful(request):
-    return render(request, 'service/make_order_successful.html', {'title': 'Successful order', 'nav_active': 'None'})
+    context = dict()
+
+    context.update(get_notifications_count(request.user))
+    context.update({'title': 'Successful order', 'nav_active': 'None'})
+
+    return render(request, 'service/make_order_successful.html', context=context)
 
 
 def make_order(request, service_slug):
     service_data = get_object_or_404(Services, slug=service_slug)
     user = request.user
+    context = dict()
+
+    context.update(get_notifications_count(user))
 
     if not user.is_authenticated:
         return redirect(to='login')
@@ -35,12 +44,12 @@ def make_order(request, service_slug):
     else:
         form = OrderForm()
 
-    context = {
+    context.update({
         'title': f'{service_data.name}',
         'nav_active': 'None',
         'service_data': service_data,
         'form': form,
-    }
+    })
 
     return render(request, 'service/make_order.html', context=context)
 
@@ -70,7 +79,8 @@ class OrdersApiForExecutorsWithoutDone(generics.ListAPIView):
     def get_queryset(self) -> QuerySet:
         current_user = self.request.user
         if current_user.is_staff:
-            return Orders.objects.filter(~Q(kanban_type="DN") & ~Q(kanban_type="AR") & (Q(executor=current_user) | Q(executor=None))) \
+            return Orders.objects.filter(
+                ~Q(kanban_type="DN") & ~Q(kanban_type="AR") & (Q(executor=current_user) | Q(executor=None))) \
                 .select_related('executor', 'customer')
         raise PermissionDenied
 
@@ -110,7 +120,14 @@ class OrdersApiKanbanForExecutor(generics.ListAPIView):
 
 def order_page(request, order_id):
     order_data = get_object_or_404(Orders.objects.select_related('executor', 'customer'), pk=order_id)
+    comments_data = order_data.ordercomments_set.all().select_related('author')
+
     user = request.user
+    make_read(user, order_data)
+    context = dict()
+
+    context.update(get_notifications_count(user))
+
     kanban_form = None
     executor_form = None
 
@@ -137,13 +154,28 @@ def order_page(request, order_id):
             kanban_form = KanbanSelectForm(order_data)
             executor_form = ExecutorSelectForm(user)
 
-    context = {
+    if request.method == "POST":
+        comment_form = OrderCommentsForm(request.POST)
+
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = user
+            comment.order = order_data
+            comment.save()
+            make_unread(order_data)
+            return redirect(to=order_data)  # What is the best solution?
+    else:
+        comment_form = OrderCommentsForm()
+
+    context.update({
         'title': f'{order_data.name}',
         'nav_active': 'None',
         'order_data': order_data,
+        'comments_data': comments_data,
         'kanban_form': kanban_form,
         'executor_form': executor_form,
-    }
+        'comment_form': comment_form,
+    })
 
     return render(request, 'service/order.html', context=context)
 
@@ -151,6 +183,10 @@ def order_page(request, order_id):
 def add_service(request):
     if not request.user.is_staff:
         raise PermissionDenied
+
+    context = dict()
+
+    context.update(get_notifications_count(request.user))
 
     if request.method == "POST":
         form = AddServiceForm(request.POST)
@@ -163,9 +199,9 @@ def add_service(request):
     else:
         form = AddServiceForm()
 
-    context = {
+    context.update({
         'title': "Add service",
         'nav_active': 'None',
         'form': form,
-    }
+    })
     return render(request, 'service/add_service.html', context=context)

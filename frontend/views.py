@@ -3,8 +3,14 @@ from django.shortcuts import render, redirect
 
 
 # Create your views here.
+from service.services import get_notifications_count
+
+
 def profile(request):
     user = request.user
+    context = dict()
+
+    context.update(get_notifications_count(user))
 
     if not user.is_authenticated:
         return redirect('login')
@@ -12,15 +18,18 @@ def profile(request):
     if user.is_staff:
         return redirect('admin_profile')
 
-    context = {
+    context.update({
         'title': 'Profile',
         'nav_active': 'account',
-    }
+    })
     return render(request, 'frontend/index.html', context=context)
 
 
 def admin_profile(request):
     user = request.user
+    context = dict()
+
+    context.update(get_notifications_count(user))
 
     if not user.is_authenticated:
         return redirect('login')
@@ -28,10 +37,10 @@ def admin_profile(request):
     if not user.is_staff:
         return redirect('profile')
 
-    context = {
+    context.update({
         'title': 'Profile',
         'nav_active': 'account',
-    }
+    })
     return render(request, 'frontend/index.html', context=context)
 
 # ??????????????????????
@@ -45,15 +54,18 @@ def admin_profile(request):
 
 def kanban_board(request):
     user = request.user
+    context = dict()
+
+    context.update(get_notifications_count(user))
 
     if not user.is_authenticated:
         return redirect('login')
     if not user.is_staff:
         raise PermissionDenied
 
-    context = {
+    context.update({
         'title': 'Kanban Board',
         'nav_active': 'None',
         'block_content': 'full_screen',
-    }
+    })
     return render(request, 'frontend/index.html', context=context)
