@@ -9,27 +9,28 @@
     <p class="date">{{ article_data.datetime }}</p>
     <p class="text">{{ article_data.text }}</p>
     <p class="stars">Stars: {{ article_data.stars }}</p>
-    <hr>
+
 
 
     {% if request.user.is_authenticated %}
-    <div class="add-comments">
-        <h3>Comments</h3>
-        <form method="post">
-            {% csrf_token %}
+        <hr>
+        <div class="add-comments">
+            <h3>Comments</h3>
+            <form method="post">
+                {% csrf_token %}
 
-            {% for f in form %}
-                <p>{{ f }}</p>
-                <p> {{ f.errors }}</p>
-            {% endfor %}
-            <button class="button" type="submit">Add Comment</button>
-        </form>
-    </div>
+                {% for f in form %}
+                    <p>{{ f }}</p>
+                    <p> {{ f.errors }}</p>
+                {% endfor %}
+                <button class="button" type="submit">Add Comment</button>
+            </form>
+        </div>
     {% endif %}
 
     <div class="comments">
-        <hr>
         {% for comment in comments %}
+            <hr>
             <div class="comment">
                 <h3>{{ comment.title }}</h3>
                 <p class="author">{{ comment.author.username }}</p>

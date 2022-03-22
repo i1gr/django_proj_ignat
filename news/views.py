@@ -12,11 +12,16 @@ from service.models import Services
 
 
 # Create your views here.
+from service.services import get_notifications_count
 
 
 def home(request):
     services = Services.objects.all()
-    return render(request, 'news/home.html', {"title": 'Home page', 'nav_active': 'home', 'services': services})
+    context = dict()
+
+    context.update(get_notifications_count(request.user))
+    context.update({"title": 'Home page', 'nav_active': 'home', 'services': services})
+    return render(request, 'news/home.html', context=context)
 
 
 class NewsPage(ListView):
@@ -26,6 +31,11 @@ class NewsPage(ListView):
     extra_context = {"title": 'News page', 'nav_active': 'news'}
     paginate_by = 5
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(get_notifications_count(self.request.user))
+        return context
+
 
 def article(request, article_slug):
     article_data = get_object_or_404(News.objects.select_related('author'), slug=article_slug)
@@ -33,6 +43,9 @@ def article(request, article_slug):
 
     user = request.user
     form = None
+    context = dict()
+
+    context.update(get_notifications_count(request.user))
 
     if user.is_authenticated:
         if request.method == "POST":
@@ -47,19 +60,22 @@ def article(request, article_slug):
         else:
             form = NewsCommentForm()
 
-    context = {
+    context.update({
         'title': f'{article_data.title}',
         'nav_active': 'news',
         'article_data': article_data,
         'form': form,
         'comments': comments,
-    }
+    })
     return render(request, 'news/article.html', context=context)
 
 
 @login_required
 def add_news(request):
     user = request.user
+    context = dict()
+
+    context.update(get_notifications_count(request.user))
 
     if not user.is_staff:
         raise PermissionDenied
@@ -68,17 +84,17 @@ def add_news(request):
         form = AddingNewsForm(user, request.POST)
         if form.is_valid():
             new_news = form.save(commit=False)
-            new_news.slug = get_unique_slug(new_news)
+            new_news.slug = get_unique_slug(new_news, new_news.title)
             new_news.save()
             return redirect('news')
     else:
         form = AddingNewsForm(user)
 
-    context = {
+    context.update({
         'title': 'Create news',
         'nav_active': 'news',
         'form': form,
-    }
+    })
 
     return render(request, 'news/add_news.html', context=context)
 

@@ -7,8 +7,8 @@ from .serializer import ProfileSerializer
 # Create your views here.
 
 
-def profile(request):
-    return render(request, 'users/profile.html', {'title': "Profile", 'nav_active': 'account'})
+# def profile(request):
+#     return render(request, 'users/profile.html', {'title': "Profile", 'nav_active': 'account'})
 
 
 class ProfileView(generics.ListAPIView):

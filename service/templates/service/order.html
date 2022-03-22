@@ -1,0 +1,65 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+
+    <div class="header">
+        <h1>{{ title }}</h1>
+    </div>
+    <h3>{{order_data.get_kanban_type_display}}</h3>
+
+    <p class="date">Order date {{order_data.data_start}}</p>
+    <p class="date">Estimated order completion date {{order_data.data_end}}</p>
+    <p>Executor: {{order_data.executor}}</p>
+    <p>Customer: {{order_data.customer}}</p>
+    <p>{{order_data.text}}</p>
+
+
+    {% if request.user.is_staff %}
+    <hr>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <p>{{ kanban_form.kanban_type }}<button class="button little-button" type="submit">Change</button></p>
+            <p> {{ kanban_form.errors }}</p>
+        </form>
+    </div>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <p>{{ executor_form.executor }}<button class="button little-button" type="submit">Change</button></p>
+            <p> {{ executor_form.errors }}</p>
+        </form>
+    </div>
+    <hr>
+    {% endif %}
+
+
+    <div class="add-comments">
+        <form method="post">
+            {% csrf_token %}
+            <p>{{ comment_form.text }}<button class="button comment-button" type="submit">Comment</button></p>
+            <p> {{ comment_form.errors }}</p>
+        </form>
+    </div>
+
+    <div class="comments">
+        {% for comment in comments_data %}
+            {% if comment.author == request.user %}
+                <div class="your-comment">
+                    <h4 class="author">{{ comment.author.username }}</h4>
+                    <p class="text">{{ comment.text }}</p>
+                    <p class="date">{{ comment.datetime }}</p>
+                </div>
+            {% else %}
+                <div class="not-your-comment">
+                    <h4 class="author">{{ comment.author.username }}</h4>
+                    <p class="text">{{ comment.text }}</p>
+                    <p class="date">{{ comment.datetime }}</p>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    </div>
+<div></div>
+
+{% endblock %}

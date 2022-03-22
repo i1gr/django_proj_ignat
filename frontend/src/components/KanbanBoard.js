@@ -1,26 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { render } from "react-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import ProfileNews from "./ProfileNews";
+import ProfileDetails from "./ProfileDetails";
+import ProfileCustomerOrders from "./ProfileCustomerOrders";
+import ProfileExecutorOrders from "./ProfileExecutorOrders";
 
-export default class ProfileCustomerOrders extends Component {
+
+export default class KanbanBoard extends Component {
     constructor(props){
         super(props);
         this.state = {
             orders: Array(),
-            url_api: '/api/customer-orders/?format=json',
-        },
+            url_api: '/api/kanban/executor-orders/?format=json&ordering=-data_start',
+        };
         this.getOrders();
-    }
-
-    change = () => {
-        const url = '/api/customer-orders/?format=json&ordering=' + event.target.value;
-
-        this.setState({
-            url_api: url,
-            orders: [],
-            },
-              function () {
-                this.getOrders();
-            }
-        );
     }
 
     getOrders(){
@@ -39,17 +38,41 @@ export default class ProfileCustomerOrders extends Component {
         if (name){
             return name;
         }
-        return <em style={{color: "red"}}>Wait for a executor</em>
+        return <em style={{color: "red"}}>None</em>
+    }
+
+    viewAllOrdersHandle = () => {
+        console.log(event.target.checked)
+        if (event.target.checked){
+            this.setState({
+                url_api: '/api/kanban/all-orders/?format=json&ordering=-data_start',
+                orders: [],
+                },
+                  function () {
+                    this.getOrders();
+                }
+            );
+        } else {
+            this.setState({
+                url_api: '/api/kanban/executor-orders/?format=json&ordering=-data_start',
+                orders: [],
+                },
+                  function () {
+                    this.getOrders();
+                }
+            );
+        }
     }
 
     render(){
+
         const orders_do = this.state.orders.filter((data) => data.kanban_type === 'DO')
         const do_column = orders_do.map((data) =>
         <a href={data.url} className="news-block">
             <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
                 <h1>{data.name}</h1>
                 <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
+                <h6>Executor: {this.getNameOrWarning(data.executor)}, Customer: {data.customer}</h6>
             </div>
         </a>
         );
@@ -60,7 +83,7 @@ export default class ProfileCustomerOrders extends Component {
             <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
                 <h1>{data.name}</h1>
                 <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
+                <h6>Executor: {this.getNameOrWarning(data.executor)}, Customer: {data.customer}</h6>
             </div>
         </a>
         );
@@ -71,7 +94,7 @@ export default class ProfileCustomerOrders extends Component {
             <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
                 <h1>{data.name}</h1>
                 <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
+                <h6>Executor: {this.getNameOrWarning(data.executor)}, Customer: {data.customer}</h6>
             </div>
         </a>
         );
@@ -82,31 +105,19 @@ export default class ProfileCustomerOrders extends Component {
             <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
                 <h1>{data.name}</h1>
                 <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
+                <h6>Executor: {this.getNameOrWarning(data.executor)}, Customer: {data.customer}</h6>
             </div>
         </a>
         );
 
-
         return(
-        <div>
-            <h2>Your Orders</h2><hr/>
+        <div style={{color: "red", margin: '1%'}}>
+            <h1>Kanban Board</h1>
 
-            <div>
-                    <select onChange={this.change}>
-                        <option value="-data_start">start data new</option>
-                        <option value="data_start">start data old</option>
-                        <option value="-data_end">end data new</option>
-                        <option value="data_end">end data old</option>
-                        <option value="name">service name</option>
-                        <option value="-name">service name - </option>
-                        <option value="executor">executor a-z</option>
-                        <option value="-executor">executor z-a</option>
-                        <option value="kanban_type">Kanban do-in</option>
-                        <option value="-kanban_type">Kanban in-do</option>
-                    </select>
-            </div>
-
+            <h4>
+                <input onChange={this.viewAllOrdersHandle} className="checkbox" type="checkbox"/>
+                View all orders
+            </h4>
 
             <div className="row">
                 <div className="column" style={{'background-color': "#ccc"}}>
@@ -149,8 +160,8 @@ export default class ProfileCustomerOrders extends Component {
             </div>
 
 
-       </div>
+
+        </div>
         );
     }
 }
-
