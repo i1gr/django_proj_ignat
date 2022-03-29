@@ -1,0 +1,86 @@
+.article {
+    max-width: 1000px;
+    margin: 100px auto 150px;
+}
+.article .title {
+    text-align: center;
+}
+.article .text {
+    width: 95%;
+    margin: auto;
+    text-indent: 4em;
+}
+.article-info{
+    margin: 0 0;
+}
+.article-info p{
+    margin: 0;
+    font-weight: 200;
+    font-size: 24px;
+}
+.article-info .author {
+    margin: 70px 0 30px;
+}
+.like.checkbox  {
+    display: none;
+}
+.date {
+    text-align: right;
+}
+
+
+.comments {
+    max-width: 100vw;
+    margin: auto;
+}
+.add-comments {
+    width: 100vw;
+    background: #C4C4C4;
+}
+.add-comments .center {
+    max-width: 1000px;
+    margin: 100px auto;
+}
+.input-textbox {
+    min-width: 970px;
+    max-width: 970px;
+    min-height: 150px;
+    padding: 15px;
+
+    margin: 50px 0 20px;
+}
+.button-center {
+    width: 250px;
+    margin: 0 auto;
+}
+.button {
+    margin: 0 0 50px;
+}
+
+
+.all-comments {
+    max-width: 1000px;
+    margin: 100px auto;
+}
+.comment {
+    background: #ddd;
+    margin: 50px 0;
+    padding: 40px 40px 100px;
+    border-radius: 15px;
+}
+.comment .text {
+    margin: 0 0 40px;
+}
+.row2 {
+    font-size: 24px;
+    font-weight: 200;
+}
+.my-comment {
+    background: #ddd;
+    margin: 50px 0 50px 50px;
+    padding: 40px 40px 100px;
+    border-radius: 15px;
+}
+.my-comment .text {
+    margin: 0 0 40px;
+}

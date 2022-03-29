@@ -24,12 +24,12 @@ class UserLoginForm(AuthenticationForm):
         super(UserLoginForm, self).__init__(*args, **kwargs)
 
     username = UsernameField(widget=forms.TextInput(
-        attrs={'class': 'input-textbox', 'placeholder': 'Enter your email', 'id': 'email'}))
+        attrs={'class': 'input-text', 'placeholder': 'Enter your email', 'id': 'email'}))
     password = forms.CharField(
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                'class': 'input-textbox',
+                'class': 'input-text',
                 'placeholder': 'Enter your password',
                 'id': 'password',
                 'autocomplete': 'current-password',
@@ -44,7 +44,7 @@ class UserPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
         max_length=254,
         widget=forms.EmailInput(attrs={
-            'class': 'input-textbox',
+            'class': 'input-text',
             'autocomplete': 'email',
             'placeholder': 'Enter your email',
         })
@@ -57,7 +57,7 @@ class UserSetPasswordForm(SetPasswordForm):
 
     new_password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'class': 'input-textbox',
+            'class': 'input-text',
             'placeholder': 'Enter new password',
             'autocomplete': 'new-password'}),
         strip=False,
@@ -66,7 +66,7 @@ class UserSetPasswordForm(SetPasswordForm):
     new_password2 = forms.CharField(
         strip=False,
         widget=forms.PasswordInput(attrs={
-            'class': 'input-textbox',
+            'class': 'input-text',
             'placeholder': 'Confirm password',
             'autocomplete': 'new-password'}),
     )
@@ -91,7 +91,7 @@ class MyCustomUserForm(RegistrationForm):
     username = forms.CharField(
         max_length=254,
         widget=forms.TextInput(attrs={
-            'class': 'input-textbox',
+            'class': 'input-text',
             'autocomplete': 'username',
             'placeholder': 'Enter your or company name',
         })
@@ -100,7 +100,7 @@ class MyCustomUserForm(RegistrationForm):
     email = forms.EmailField(
         max_length=254,
         widget=forms.EmailInput(attrs={
-            'class': 'input-textbox',
+            'class': 'input-text',
             'autocomplete': 'email',
             'placeholder': 'Enter your email',
         })
@@ -109,7 +109,7 @@ class MyCustomUserForm(RegistrationForm):
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                'class': 'input-textbox',
+                'class': 'input-text',
                 'placeholder': 'Enter your password',
                 'id': 'password',
                 'autocomplete': 'current-password',
@@ -119,7 +119,7 @@ class MyCustomUserForm(RegistrationForm):
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                'class': 'input-textbox',
+                'class': 'input-text',
                 'placeholder': 'Enter your password',
                 'id': 'password',
                 'autocomplete': 'current-password',

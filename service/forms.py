@@ -1,9 +1,8 @@
 from django import forms
-from django.core.exceptions import ValidationError
 
 from news.services.services import get_clean_title
-from .models import Orders, Services, OrderComments
 from users.models import Profile
+from .models import Orders, Services, OrderComments
 from .services import get_choices_from_query
 
 
@@ -63,5 +62,5 @@ class OrderCommentsForm(forms.ModelForm):
         model = OrderComments
         fields = ['text']
         widgets = {
-            'text': forms.Textarea(attrs={'class': "input-textbox input-textbox-150"}),
+            'text': forms.Textarea(attrs={'class': "input-textbox"}),
         }

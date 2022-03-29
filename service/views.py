@@ -49,6 +49,7 @@ def make_order(request, service_slug):
         'nav_active': 'None',
         'service_data': service_data,
         'form': form,
+        'block_content': 'full_screen',
     })
 
     return render(request, 'service/make_order.html', context=context)
@@ -175,6 +176,7 @@ def order_page(request, order_id):
         'kanban_form': kanban_form,
         'executor_form': executor_form,
         'comment_form': comment_form,
+        'block_content': 'full_screen',
     })
 
     return render(request, 'service/order.html', context=context)
@@ -205,3 +207,12 @@ def add_service(request):
         'form': form,
     })
     return render(request, 'service/add_service.html', context=context)
+
+
+def services(request):
+    services_queryset = Services.objects.all()
+    context = dict()
+
+    context.update(get_notifications_count(request.user))
+    context.update({"title": 'Home page', 'nav_active': 'services', 'services': services_queryset})
+    return render(request, 'service/services.html', context=context)

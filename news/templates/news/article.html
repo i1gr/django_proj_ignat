@@ -1,45 +1,84 @@
-{% extends 'news/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'news/css/article.css' %}" type="text/css" />
 
-    <div class="header">
-        <h1>{{ title }}</h1>
-    </div>
-    <p class="author">Author: {{ article_data.author.username }}</p>
-    <p class="date">{{ article_data.datetime }}</p>
-    <p class="text">{{ article_data.text }}</p>
-    <p class="stars">Stars: {{ article_data.stars }}</p>
+    <div class="article">
+        <h1 class="title">{{ title }}</h1>
+        <div class="text">{{ article_data.text|linebreaks }}</div>
 
+        <div class="article-info">
+                    <p class="author">{{ article_data.author.username|title }}</p>
+            <div class="row2">
+                {% if request.user.is_authenticated %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <p>
+                            {{ like_form.like }}
+                            <label for="id_like">
+                                {% if like_form.like.value %}
+                                    {% load static %}
+                                    <img src="{% static 'news/images/like.png' %}"  alt="Flowers in Chania" width="24" height="24">
+                                {% else %}
+                                    {% load static %}
+                                    <img src="{% static 'news/images/unlike.png' %}"  alt="Flowers in Chania" width="24" height="24">
+                                {% endif %}
 
+                                {{ article_data.users_who_liked.all.count }}
+                            </label>
+                        </p>
 
-    {% if request.user.is_authenticated %}
-        <hr>
-        <div class="add-comments">
-            <h3>Comments</h3>
-            <form method="post">
-                {% csrf_token %}
-
-                {% for f in form %}
-                    <p>{{ f }}</p>
-                    <p> {{ f.errors }}</p>
-                {% endfor %}
-                <button class="button" type="submit">Add Comment</button>
-            </form>
+                        <p> {{ like_form.errors }}</p>
+                    </form>
+                {% else %}
+                    <p class="row2">
+                        {% load static %}
+                        <img src="{% static 'news/images/unlike.png' %}"  alt="Flowers in Chania" width="24" height="24">
+                        <span style="padding: 0 10px;">{{ article_data.users_who_liked.all.count }}</span>
+                    </p>
+                {% endif %}
+            </div>
+            <p class="date row2">{{ article_data.datetime|date:"F j, G:i" }}</p>
         </div>
-    {% endif %}
+    </div>
+
+
+
+
+
 
     <div class="comments">
-        {% for comment in comments %}
-            <hr>
-            <div class="comment">
-                <h3>{{ comment.title }}</h3>
-                <p class="author">{{ comment.author.username }}</p>
-                <p class="date">{{ comment.datetime }}</p>
-                <p class="stars">Stars: {{ comment.stars }}</p>
-                <p class="text">{{ comment.text }}</p>
+        {% if request.user.is_authenticated %}
+        <div class="add-comments">
+            <div class="center">
+                <form method="post">
+                    {% csrf_token %}
+                    <div>
+                        <p>{{ form.text }}</p>
+                        <p> {{ form.text.errors }}</p>
+                    </div>
+                    <div class="button-center">
+                        <button class="button" type="submit">Comment</button>
+                    </div>
+                </form>
             </div>
-        {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="all-comments">
+            {% for comment in comments %}
+
+                <div class="{% if request.user == comment.author %}my-comment{% else %}comment{% endif %}">
+                    <p class="text">{{ comment.text }}</p>
+                    <p class="author row2">{{ comment.author.username }}</p>
+                    <p class="date row2">{{ comment.datetime|date:"F, j, G:i" }}</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
+
+
 
 
 

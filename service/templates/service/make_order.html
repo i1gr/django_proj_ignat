@@ -1,22 +1,29 @@
-{% extends 'news/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'news/css/make_order.css' %}" type="text/css" />
 
-    <div class="tb-margin">
+    <div class="info">
         <H1>{{ service_data.name }}</H1>
-        <p>{{ service_data.text }}</p>
-        <p class="date">Average order waiting time is {{ service_data.run_time }}</p>
+        <div class="text">{{ service_data.text|linebreaks }}</div>
+        <p class="price">Prise from {{ service_data.price }}$</p>
     </div>
-    <form method="post">
+
+    <div class="order-form">
+        <form method="post">
         {% csrf_token %}
 
         {% for f in form %}
-            <p>{{ f.label }}:</p>
             <p>{{ f }}</p>
             <p> {{ f.errors }}</p>
         {% endfor %}
+        <div class="button-center">
+            <button class="button" type="submit">Make Order</button>
+        </div>
 
-        <button class="button" type="submit">Make Order</button>
     </form>
+    </div>
+
 
 {% endblock %}

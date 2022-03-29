@@ -1,0 +1,41 @@
+.info {
+    width: 1000px;
+    margin: 100px auto;
+}
+.info h1{
+    text-align: center;
+}
+.info .text{
+    width: 95%;
+    margin: auto;
+    text-indent: 4em;
+}
+.info .price{
+    font-weight: 200;
+    font-size: 24px;
+    margin: 60px 0 100px;
+}
+
+
+.order-form {
+    background: #ddd;
+    padding: 30px 0 0;
+}
+form {
+    width: 1000px;
+    margin: auto;
+}
+.input-textbox {
+    min-width: 970px;
+    max-width: 970px;
+    min-height: 150px;
+    padding: 15px;
+}
+.button-center {
+    width: 250px;
+    margin: 0 auto;
+}
+.button {
+    margin: 0 0 50px;
+}
+

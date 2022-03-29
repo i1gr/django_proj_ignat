@@ -1,5 +1,3 @@
-from types import NoneType
-
 import django
 from django.db.models import Q
 
@@ -55,7 +53,6 @@ def get_notifications_count(user) -> dict:
 
         if is_user_read(user, instance):
             count -= 1
-
 
     return {"notifications_count": count}
 

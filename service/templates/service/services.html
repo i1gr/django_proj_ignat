@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'news/css/services.css' %}" type="text/css" />
+
+
+    {% for service in services %}
+        <div class="service">
+            <h1>{{ service.name }}</h1>
+
+            <p>
+                {{ service.text|truncatewords:15 }}
+            </p>
+            <form action="{{ service.get_absolute_url }}">
+                <button class="button">
+                    Learn more
+                </button>
+            </form>
+        </div>
+    {% endfor %}
+
+
+
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'news/css/base.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'news/css/button.css' %}" type="text/css" />
+    <!--    DEV TOOL -->
+<!--    <meta http-equiv="refresh" content="1" />-->
+</head>
+<body>
+    <nav class="nav">
+            <ul>
+                <li style="float:left" class="logo">
+                    <a class="{% if nav_active == 'home' %}active{% endif %}" href="{% url 'home' %}">Umbrella Company</a>
+                </li>
+
+                {% if request.user.is_authenticated %}
+                <li><a class="{% if nav_active == 'account' %}active{% endif %} notification not-logo" href="{% url 'profile' %}">
+                    <span>Account</span>
+                    {% if notifications_count > 0 %}
+                        <span class="badge">{{ notifications_count }}</span>
+                    {% endif %}
+                </a></li>
+<!--                <li><a href="{% url 'logout' %}">Logout</a></li>-->
+                {% else %}
+                <li><a class="{% if nav_active == 'account' %}active{% endif %} not-logo" href="{% url 'login' %}">Account</a></li>
+                {% endif %}
+                <li><a class="{% if nav_active == 'services' %}active{% endif %} not-logo" href="{% url 'services' %}">Services</a></li>
+                <li><a class="{% if nav_active == 'news' %}active{% endif %} not-logo" href="{% url 'news' %}">News</a></li>
+
+
+
+
+
+
+            </ul>
+    </nav>
+
+
+    <div class="{% if block_content != 'full_screen' %}content{% endif %}">
+
+       {% block content %}
+        {% endblock %}
+        <div class="push"></div>
+    </div>
+
+
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&LeftArrow; previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next &RightArrow;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+
+
+    <div class="footer">
+        <p>The Umbrella Company</p>
+        <p>Clear your sky</p>
+    </div>
+
+</body>
+    {% block loadjs %}
+    {% endblock %}
+</html>

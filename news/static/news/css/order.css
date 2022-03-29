@@ -1,0 +1,72 @@
+.order-info {
+    width: 1000px;
+    margin: 100px auto 300px;
+}
+.order-info .header h1{
+    text-align: center;
+    margin: 0;
+}
+.order-info .header p{
+    text-align: center;
+    margin: 0 0;
+    font-weight: 200;
+    font-size: 30px;
+}
+.order-data {
+    margin: 30px 2.5% 50px;
+}
+.row2 p{
+    font-weight: 200;
+    font-size: 24px;
+}
+.date {
+    text-align: right;
+}
+
+
+
+
+.add-comments {
+    background: #ddd;
+    padding: 40px;
+}
+.add-comments form {
+    width: 1000px;
+    margin: 0 auto;
+
+    position: relative;
+}
+.input-textbox {
+    min-width: 670px;
+    max-width: 670px;
+}
+
+
+
+.comments {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.comment {
+    background: #ddd;
+    margin: 50px 0;
+    padding: 40px 40px 100px;
+    border-radius: 15px;
+}
+.comment .text {
+    margin: 0 0 40px;
+}
+.row2 {
+    font-size: 24px;
+    font-weight: 200;
+}
+.my-comment {
+    background: #ddd;
+    margin: 50px 0 50px 50px;
+    padding: 40px 40px 100px;
+    border-radius: 15px;
+}
+.my-comment .text {
+    margin: 0 0 40px;
+}

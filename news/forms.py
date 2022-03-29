@@ -33,26 +33,31 @@ class NewsCommentForm(forms.ModelForm):
 
     class Meta:
         model = NewsComments
-        fields = ['title', 'text', 'stars']
-        CHOICES = (
-            ('5', '5 stars - Excellent'),
-            ('4', '4 stars - Very good'),
-            ('3', '3 stars - Satisfactory'),
-            ('2', '2 stars - Poor'),
-            ('1', '1 star - Fail'),
-        )
+        fields = ['text']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'input-textbox', 'placeholder': 'Title'}),
-            'text': forms.Textarea(attrs={'class': 'input-textbox input-textbox-90', 'rows': "10", 'cols': "50",
+            'text': forms.Textarea(attrs={'class': 'input-textbox input-textbox', 'rows': "10", 'cols': "50",
                                           'placeholder': 'Commenting publicly'}),
-            'stars': forms.Select(attrs={'class': 'input-textbox'}, choices=CHOICES),
         }
-
-    def clean_title(self):
-        return get_clean_title(self.cleaned_data['title'])
 
     def clean_text(self):
         text = self.cleaned_data['text']
-        if len(text) < 1000:
+        if len(text) < 5000:
             return text
-        raise ValidationError('Max comment size is 1000 characters')
+        raise ValidationError('Max comment size is 5000 characters')
+
+
+class LikeForm(forms.Form):
+    like = forms.BooleanField(required=False,
+                              widget=forms.CheckboxInput(attrs={'onclick': 'this.form.submit();',
+                                                                'class': 'checkbox like'}))
+
+    def __init__(self, article: News, user: Profile, *args, **kwargs):
+        updated_initial = dict()
+        updated_initial['like'] = self.is_liked(article, user)
+        kwargs.update(initial=updated_initial)
+        super(LikeForm, self).__init__(*args, **kwargs)
+
+    def is_liked(self, article: News, user: Profile):
+        if user in article.users_who_liked.all():
+            return True
+        return False
