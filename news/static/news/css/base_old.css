@@ -290,3 +290,8 @@ a {
   display: table;
   clear: both;
 }
+
+/* like */
+.like.checkbox  {
+    display: none;
+}
