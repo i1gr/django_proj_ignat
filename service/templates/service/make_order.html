@@ -12,17 +12,31 @@
 
     <div class="order-form">
         <form method="post">
-        {% csrf_token %}
+            {% csrf_token %}
 
-        {% for f in form %}
-            <p>{{ f }}</p>
-            <p> {{ f.errors }}</p>
-        {% endfor %}
-        <div class="button-center">
-            <button class="button" type="submit">Make Order</button>
-        </div>
+            {% for order in order_form %}
+                <p>{{ order }}</p>
+                <p> {{ order.errors }}</p>
+            {% endfor %}
+            <div class="button-center">
+                <button class="button button-main" name="order_button" type="submit">Make Order</button>
+            </div>
+        </form>
+    </div>
 
-    </form>
+    <div class="question-form">
+        <h1 style="text-align: center;">You have a question?</h1>
+        <form method="post">
+            {% csrf_token %}
+
+            {% for question in question_form %}
+                <p>{{ question }}</p>
+                <p> {{ question.errors }}</p>
+            {% endfor %}
+            <div class="button-center">
+                <button class="button" name="question_button" type="submit">Ask</button>
+            </div>
+        </form>
     </div>
 
 

@@ -1,6 +1,13 @@
+/*
+  colors
+  white: #ffffff
+  main: B392A9
+  main black: #7d6676
+
+ */
 /* Button */
 .button {
-    color: black;
+    color: #000000;
     background: none;
     font-weight: 200;
     min-width: 250px;
@@ -10,18 +17,21 @@
     padding: 5px 12px;
     border-radius: 50px;
     border: solid 1px black;
+    box-shadow: 0px 4px 15px #00000080;
     transition: 0.3s;
 }
 
 .button:hover {
-    background: black;
-    color: white;
+    transform: scale(1.1);
+    box-shadow: 0px 8px 20px #00000099;
 }
 
 .button:active {
     background: black;
-    box-shadow: 0px 8px 11px 1px #6986A8;
+    color: white;
     transition: 0.1s;
+    transform: scale(1.05);
+    box-shadow: 0px 4px 4px #000000;
 }
 .comment-button {
     position: absolute;
@@ -51,26 +61,60 @@
     background: #ffffff66;
     border: none;
 }
+.button-main {
+    background: #B392A9;
+    color: #ffffff;
+    border: none;
+}
+.button-main:hover {
+    background: #B392A9;
+    box-shadow: 0px 8px 20px #00000099;
+}
 
+.button-main:active {
+    background: #7d6676;
+    box-shadow: 0px 2px 7px #000000;
+}
 
 
 .input-textbox {
-    border: 1px solid #000000;
+    border: none;
+    box-shadow: 0px 7px 20px #00000040;
     border-radius: 15px;
     min-width: 970px;
     max-width: 970px;
     min-height: 150px;
     padding: 15px;
+    transition: 0.3s;
 
     margin: 50px 0 20px;
     font-family: Nunito, sans-serif;
 }
+.input-textbox:hover{
+    transition: 0.3s;
+    transform: scale(1.05);
+}
+.input-textbox:active {
+    transition: 0.2s;
+    transform: scale(1.03);
+}
+
 .input-text {
-    border: 1px solid #000000;
+    border: none;
+    box-shadow: 0px 7px 20px #00000040;
     border-radius: 15px;
     padding: 15px;
     width: 90%;
+    transition: 0.3s;
 
     margin: 50px 0;
     font-family: Nunito, sans-serif;
+}
+.input-text:hover {
+    transition: 0.3s;
+    transform: scale(1.05);
+}
+.input-text:active {
+    transition: 0.2s;
+    transform: scale(1.03);
 }

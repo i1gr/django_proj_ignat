@@ -18,8 +18,12 @@
 
 
 .order-form {
-    background: #ddd;
+    background: #A0B1B3;
     padding: 30px 0 0;
+}
+.question-form {
+    padding: 30px 0 0;
+    margin: 100px 0;
 }
 form {
     width: 1000px;
@@ -31,6 +35,12 @@ form {
     min-height: 150px;
     padding: 15px;
 }
+.order-form .input-textbox {
+    background: #F2FEFF;
+}
+.question-form .input-textbox {
+    background: #EAE8E1;
+}
 .button-center {
     width: 250px;
     margin: 0 auto;
@@ -38,4 +48,5 @@ form {
 .button {
     margin: 0 0 50px;
 }
+
 

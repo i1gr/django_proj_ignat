@@ -11,7 +11,16 @@ class OrderForm(forms.ModelForm):
         model = Orders
         fields = ['text']
         widgets = {
-            'text': forms.Textarea(attrs={'class': 'input-textbox input-textbox-90', 'rows': "10", 'cols': "50"}),
+            'text': forms.Textarea(attrs={'class': 'input-textbox', 'rows': "10", 'cols': "50"}),
+        }
+
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Orders
+        fields = ['text']
+        widgets = {
+            'text': forms.Textarea(attrs={'class': 'input-textbox'}),
         }
 
 

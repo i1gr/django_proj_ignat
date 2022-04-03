@@ -5,12 +5,11 @@ import ProfileDetails from "./ProfileDetails";
 import ProfileCustomerOrders from "./ProfileCustomerOrders";
 import ProfileExecutorOrders from "./ProfileExecutorOrders";
 
-
-export default class Profile extends Component {
+export default class Orders extends Component {
     render(){
         return(
-        <div>
-            <ProfileDetails />
+        <div className='kanban'>
+            <ProfileCustomerOrders />
         </div>
         );
     }

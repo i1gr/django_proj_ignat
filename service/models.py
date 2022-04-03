@@ -38,6 +38,7 @@ class Orders(models.Model):
     data_end = models.DateTimeField(null=True)
     text = models.TextField()
     is_read = models.BooleanField(default=False)
+    is_question = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-data_start"]

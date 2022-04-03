@@ -14,16 +14,18 @@ from service.services import get_notifications_count
 
 
 def home(request):
-    services = Services.objects.all()
     context = dict()
-
+    import time
+    start_time = time.time()
     context.update(get_notifications_count(request.user))
-    context.update({"title": 'Home page', 'nav_active': 'home', 'services': services, 'block_content': 'full_screen', })
+    print(time.time() - start_time)
+    context.update({"title": 'Home page', 'nav_active': 'home', 'block_content': 'full_screen', })
     return render(request, 'news/home.html', context=context)
 
 
 class NewsPage(ListView):
     model = News
+    queryset = News.objects.all().prefetch_related('users_who_liked')
     template_name = 'news/news.html'
     context_object_name = 'news'
     extra_context = {"title": 'News page', 'nav_active': 'news'}
@@ -55,7 +57,6 @@ def article(request, article_slug):
                 comment.author = user
                 comment.news = article_data
                 comment.save()
-                a = article_slug
                 return redirect(to='article', article_slug=article_slug)
             if like_form.is_valid():
                 like = like_form.cleaned_data['like']

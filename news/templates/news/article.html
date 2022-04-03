@@ -16,13 +16,13 @@
                         {% csrf_token %}
                         <p>
                             {{ like_form.like }}
-                            <label for="id_like">
+                            <label class="like" for="id_like">
                                 {% if like_form.like.value %}
                                     {% load static %}
-                                    <img src="{% static 'news/images/like.png' %}"  alt="Flowers in Chania" width="24" height="24">
+                                    <img class="like_img" src="{% static 'news/images/like.png' %}"  alt="Flowers in Chania" width="24" height="24">
                                 {% else %}
                                     {% load static %}
-                                    <img src="{% static 'news/images/unlike.png' %}"  alt="Flowers in Chania" width="24" height="24">
+                                    <img class="like_img" src="{% static 'news/images/unlike.png' %}"  alt="Flowers in Chania" width="24" height="24">
                                 {% endif %}
 
                                 {{ article_data.users_who_liked.all.count }}
@@ -59,7 +59,7 @@
                         <p> {{ form.text.errors }}</p>
                     </div>
                     <div class="button-center">
-                        <button class="button" type="submit">Comment</button>
+                        <button class="button button-main" type="submit">Comment</button>
                     </div>
                 </form>
             </div>

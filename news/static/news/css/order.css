@@ -27,7 +27,7 @@
 
 
 .add-comments {
-    background: #ddd;
+    background: #A0B1B3;
     padding: 40px;
 }
 .add-comments form {
@@ -39,6 +39,7 @@
 .input-textbox {
     min-width: 670px;
     max-width: 670px;
+    background: #F2FEFF;
 }
 
 
@@ -49,10 +50,11 @@
 }
 
 .comment {
-    background: #ddd;
+    background: #D5CAC3;
     margin: 50px 0;
     padding: 40px 40px 100px;
     border-radius: 15px;
+    box-shadow: 0px 7px 17px #00000040;
 }
 .comment .text {
     margin: 0 0 40px;
@@ -62,10 +64,11 @@
     font-weight: 200;
 }
 .my-comment {
-    background: #ddd;
+    background: #EAE8E1;
     margin: 50px 0 50px 50px;
     padding: 40px 40px 100px;
     border-radius: 15px;
+
 }
 .my-comment .text {
     margin: 0 0 40px;

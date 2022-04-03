@@ -1,9 +1,11 @@
 from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet, Q
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView
 
 from news.services.services import get_unique_slug
-from service.forms import OrderForm, KanbanSelectForm, ExecutorSelectForm, AddServiceForm, OrderCommentsForm
+from service.forms import OrderForm, KanbanSelectForm, ExecutorSelectForm, AddServiceForm, OrderCommentsForm, \
+    QuestionForm
 from service.models import Services, Orders
 from rest_framework import generics, filters
 
@@ -31,9 +33,14 @@ def make_order(request, service_slug):
         return redirect(to='login')
 
     if request.method == "POST":
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            order = form.save(commit=False)
+        order_form = OrderForm(request.POST)
+        question_form = QuestionForm(request.POST)
+        print(order_form.is_valid())
+        print(question_form.is_valid())
+        if order_form.is_valid() and 'order_button' in request.POST:
+            print(order_form)
+            print(order_form.is_valid())
+            order = order_form.save(commit=False)
             order.service = service_data
             order.customer = user
             order.save()
@@ -41,14 +48,27 @@ def make_order(request, service_slug):
             order.name = str(service_data.name) + ' #' + str(order.pk)
             order.save()
             return redirect('make_order_successful')
+
+        if question_form.is_valid() and 'question_button' in request.POST:
+            question = question_form.save(commit=False)
+            question.service = service_data
+            question.customer = user
+            question.save()
+            # ????????????????????????????????????????????
+            question.name = 'Question: ' + str(service_data.name) + ' #' + str(question.pk)
+            question.save()
+            print(question)
+            return redirect('messages')
     else:
-        form = OrderForm()
+        order_form = OrderForm()
+        question_form = QuestionForm()
 
     context.update({
         'title': f'{service_data.name}',
         'nav_active': 'None',
         'service_data': service_data,
-        'form': form,
+        'order_form': order_form,
+        'question_form': question_form,
         'block_content': 'full_screen',
     })
 
@@ -214,5 +234,42 @@ def services(request):
     context = dict()
 
     context.update(get_notifications_count(request.user))
-    context.update({"title": 'Home page', 'nav_active': 'services', 'services': services_queryset})
+    context.update({"title": 'Services', 'nav_active': 'services', 'services': services_queryset})
     return render(request, 'service/services.html', context=context)
+
+
+def messages(request):
+    user = request.user
+    context = dict()
+
+    if user.is_staff:
+        queryset = Orders.objects.filter(Q(executor=user) | Q(executor=None))
+    if not user.is_staff:
+        queryset = Orders.objects.filter(customer=user)
+
+
+    context.update(get_notifications_count(user))
+    context.update({"title": 'Messages', 'nav_active': 'messages', 'messages': queryset})
+    return render(request, 'service/messages.html', context=context)
+
+
+class MessagesListView(ListView):
+    model = Orders
+    context_object_name = 'messages'
+    template_name = 'service/messages.html'
+
+    extra_context = {"title": 'Messages', 'nav_active': 'messages'}
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(get_notifications_count(self.request.user))
+        return context
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            queryset = Orders.objects.filter(Q(executor=user) | Q(executor=None)).select_related('executor')
+        if not user.is_staff:
+            queryset = Orders.objects.filter(customer=user).select_related('customer').select_related('executor')
+        return queryset

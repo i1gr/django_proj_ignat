@@ -65,7 +65,26 @@ def kanban_board(request):
 
     context.update({
         'title': 'Kanban Board',
-        'nav_active': 'None',
+        'nav_active': 'orders',
+        'block_content': 'full_screen',
+    })
+    return render(request, 'frontend/index.html', context=context)
+
+
+def orders(request):
+    user = request.user
+    context = dict()
+
+    if not user.is_authenticated:
+        return redirect('login')
+    if user.is_staff:
+        return redirect(to='admin_orders')
+
+    context.update(get_notifications_count(user))
+
+    context.update({
+        'title': 'Orders',
+        'nav_active': 'orders',
         'block_content': 'full_screen',
     })
     return render(request, 'frontend/index.html', context=context)

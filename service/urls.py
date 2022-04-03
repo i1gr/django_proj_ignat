@@ -14,5 +14,6 @@ urlpatterns = [
     path('service/add_service/', add_service, name='add_service'),
     path('order/<int:order_id>/', order_page, name='order'),
     path('services/', services, name='services'),
+    path('messages/', MessagesListView.as_view(), name='messages'),
 
 ]

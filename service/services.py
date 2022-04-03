@@ -1,7 +1,10 @@
-import django
-from django.db.models import Q
+import random
+import time
 
-from service.models import Orders
+import django
+from django.db.models import Q, Prefetch
+
+from service.models import Orders, OrderComments
 
 
 def get_choices_from_query(model: django.db.models.base.ModelBase, filter_params: dict) -> list:
@@ -25,7 +28,10 @@ def is_user_read(user, instance: Orders) -> bool:
     if instance.is_read:
         return True
 
-    last_comment = instance.ordercomments_set.all().order_by('-datetime').first()
+    order_comments = list(instance.ordercomments_set.all())
+    last_comment = None
+    if order_comments:
+        last_comment = order_comments[0]
 
     if last_comment is None and user.is_staff:
         return False
@@ -43,14 +49,18 @@ def get_notifications_count(user) -> dict:
         return {}
 
     if user.is_staff:
-        queryset = Orders.objects.filter((Q(executor=user) | Q(executor=None) | Q(customer=user)) & Q(is_read=False))
+        queryset = Orders.objects.filter((Q(executor=user) | Q(executor=None) | Q(customer=user)) & Q(is_read=False))\
+            .prefetch_related(Prefetch('ordercomments_set',
+                                       queryset=OrderComments.objects.all().order_by('-datetime')
+                                       .select_related('author')))
     else:
-        queryset = Orders.objects.filter(Q(customer=user) & Q(is_read=False))
+        queryset = Orders.objects.filter(Q(customer=user) & Q(is_read=False)).prefetch_related(
+            Prefetch('ordercomments_set',
+                     queryset=OrderComments.objects.all().order_by('-datetime').select_related('author')))
 
     count = len(queryset)
 
     for instance in queryset:
-
         if is_user_read(user, instance):
             count -= 1
 

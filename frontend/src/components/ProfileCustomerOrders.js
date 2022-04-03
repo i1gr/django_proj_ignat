@@ -47,9 +47,9 @@ export default class ProfileCustomerOrders extends Component {
         const do_column = orders_do.map((data) =>
         <a href={data.url} className="news-block">
             <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
-                <h1>{data.name}</h1>
-                <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
+                <h3>{data.name}</h3>
+                <p className="profile">Executor: {this.getNameOrWarning(data.executor)}</p>
+                <p className="date">{data.data_start}</p>
             </div>
         </a>
         );
@@ -58,9 +58,9 @@ export default class ProfileCustomerOrders extends Component {
         const in_column = orders_in.map((data) =>
         <a href={data.url} className="news-block">
             <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
-                <h1>{data.name}</h1>
-                <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
+                <h3>{data.name}</h3>
+                <p className="profile">Executor: {this.getNameOrWarning(data.executor)}</p>
+                <p className="date">{data.data_start}</p>
             </div>
         </a>
         );
@@ -69,9 +69,9 @@ export default class ProfileCustomerOrders extends Component {
         const done_column = orders_done.map((data) =>
         <a href={data.url} className="news-block">
             <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
-                <h1>{data.name}</h1>
-                <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
+                <h3>{data.name}</h3>
+                <p className="profile">Executor: {this.getNameOrWarning(data.executor)}</p>
+                <p className="date">{data.data_start}</p>
             </div>
         </a>
         );
@@ -80,9 +80,9 @@ export default class ProfileCustomerOrders extends Component {
         const ar_column = orders_ar.map((data) =>
         <a href={data.url} className="news-block">
             <div className={"order preview-orders"  + (data.is_user_read ? "" : " unread")}>
-                <h1>{data.name}</h1>
-                <p className="date">{data.data_start} - {data.data_end}</p>
-                <h6>Executor: {this.getNameOrWarning(data.executor)}</h6>
+                <h3>{data.name}</h3>
+                <p className="profile">Executor: {this.getNameOrWarning(data.executor)}</p>
+                <p className="date">{data.data_start}</p>
             </div>
         </a>
         );
@@ -109,40 +109,40 @@ export default class ProfileCustomerOrders extends Component {
 
 
             <div className="row">
-                <div className="column" style={{'background-color': "#ccc"}}>
+                <div className="column">
                     <h2>Do</h2>
 
                     <div>{(() => {
                         if (do_column.length >  0){
-                            return <div style={{margin: "5%"}}>{do_column}</div>
+                            return <div style={{margin: "2.5%"}}>{do_column}</div>
                         }})()}
                     </div>
                 </div>
 
-                <div className="column" style={{"background-color": "#aaa"}}>
+                <div className="column">
                     <h2>In Process</h2>
 
                     <div>{(() => {
                         if (in_column.length >  0){
-                            return <div style={{margin: "5%"}}>{in_column}</div>
+                            return <div style={{margin: "2.5%"}}>{in_column}</div>
                         }})()}
                     </div>
                 </div>
-                <div className="column" style={{"background-color": "#ccc"}}>
+                <div className="column">
                     <h2>Done</h2>
 
                     <div>{(() => {
                         if (done_column.length >  0){
-                            return <div style={{margin: "5%"}}>{done_column}</div>
+                            return <div style={{margin: "2.5%"}}>{done_column}</div>
                         }})()}
                     </div>
                 </div>
-                <div className="column" style={{"background-color": "#aaa"}}>
+                <div className="column">
                     <h2>Archive</h2>
 
                     <div>{(() => {
                         if (ar_column.length >  0){
-                            return <div style={{margin: "5%"}}>{ar_column}</div>
+                            return <div style={{margin: "2.5%"}}></div>
                         }})()}
                     </div>
                 </div>
