@@ -1,12 +1,12 @@
 from django.core.exceptions import PermissionDenied
-from django.db.models import QuerySet, Q
+from django.db.models import QuerySet, Q, Prefetch
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
 from news.services.services import get_unique_slug
 from service.forms import OrderForm, KanbanSelectForm, ExecutorSelectForm, AddServiceForm, OrderCommentsForm, \
     QuestionForm
-from service.models import Services, Orders
+from service.models import Services, Orders, OrderComments
 from rest_framework import generics, filters
 
 from service.serializer import ServicesSerializerWithoutOrders, OrdersSerializer
@@ -140,7 +140,10 @@ class OrdersApiKanbanForExecutor(generics.ListAPIView):
 
 
 def order_page(request, order_id):
-    order_data = get_object_or_404(Orders.objects.select_related('executor', 'customer'), pk=order_id)
+    order_data = get_object_or_404(
+        Orders.objects.select_related('executor', 'customer').prefetch_related(Prefetch('ordercomments_set',
+                                       queryset=OrderComments.objects.all().order_by('-datetime')
+                                       .select_related('author'))), pk=order_id)
     comments_data = order_data.ordercomments_set.all().select_related('author')
 
     user = request.user
@@ -269,7 +272,14 @@ class MessagesListView(ListView):
     def get_queryset(self):
         user = self.request.user
         if user.is_staff:
-            queryset = Orders.objects.filter(Q(executor=user) | Q(executor=None)).select_related('executor')
+            # queryset = Orders.objects.filter(Q(executor=user) | Q(executor=None)).select_related('executor')
+            queryset = Orders.objects.filter(customer=user).prefetch_related(
+                Prefetch('ordercomments_set',
+                         queryset=OrderComments.objects.all().order_by('-datetime').select_related(
+                             'author'))).select_related('customer')
         if not user.is_staff:
-            queryset = Orders.objects.filter(customer=user).select_related('customer').select_related('executor')
+            # queryset = Orders.objects.filter(customer=user).select_related('customer').select_related('executor')
+            queryset = Orders.objects.filter(customer=user).prefetch_related(
+                Prefetch('ordercomments_set',
+                         queryset=OrderComments.objects.all().order_by('-datetime').select_related('author'))).select_related('executor')
         return queryset
