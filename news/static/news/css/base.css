@@ -1,290 +1,121 @@
-/* Body */
 body {
      font-family: Nunito, sans-serif;
      margin: 0;
      display: block;
-     color: #141B41;
-     background-color: #D8E1E9;
+     color: black;
+     background-color: white;
 }
 
-
-
-/* nav */
+/* navigation bar*/
 .nav {
   margin: 0;
-  background-color: #141B41;
-  overflow: auto;
+  padding: 0;
+  width: 100%;
+  height: 60px;
+}
+.nav {
+    font-weight: 200;
 }
 
-.nav .nav-content {
-    width: 900px;
-    margin: 0 auto;
-    display: block;
+.nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
-
-.nav a {
-  float: left;
-  color: #B3C5D7;
+.nav li {
+  float: right;
+}
+.nav .logo a{
+    Font-Size: 30px;
+    padding: 12px 50px;
+    margin: 0px;
+    border: none;
+}
+.nav li a {
+  display: block;
+  font-size: 15px;
   text-align: center;
-  padding: 12px 16px;
+  margin: 14px 70px 14px 0px;
+  padding: 5px 12px;
   text-decoration: none;
-  font-size: 17px;
-  transition: 0.5s;
-  border-radius: 15px;
-    cursor: default;
-    margin: 0 1vw;
+  border: 1px solid black;
+  border-radius: 50px;
 }
-
-/* Add a color to the active/current link */
-.nav a.active {
-  background-color: #7392B7;
-  color: #FCFAFA;
+.nav .logo a:hover:not(.active) {
+  border: none;
+  background-color: white;
+  color: black;
 }
-
-.nav a:hover {
-  color: #FCFAFA;
+.nav li a:hover:not(.active) {
+  transition-duration: 0.4s;
+  background-color: black;
+  color: white;
 }
-
-
-/* pagination */
-.pagination {
-    text-align: center;
-    padding: 20px;
-    margin: 1vh;
+.nav .active.not-logo {
+  background-color: black;
+  color: white;
+}
+a {
+  color: black;
+  text-decoration: none;
 }
 
 
 /* Footer */
-.footer {
-    background-color: #7392B7;
-    color: #C5D5EA;
-    padding: 20px;
-    margin: 10vh 0 0;
+.push {
+  height: 250px;
 }
-
-
-/* Date */
-.date {
-    text-align: right;
-    font-size: 14px;
-    color: #7392B7;
-    margin: 0px;
-    margin-right: 10%;
-}
-
-
-/* Service */
-.service {
-    margin: 5%;
-}
-
-/* Button */
-.button {
-    color: #D8E1E9;
-    background-color: #759EB8;
-    width: 250px;
-    margin: 3%;
-    font-size: 30px;
-    line-height: 30px;
-    padding: 11px;
-    border-radius: 980px;
-    border: 0;
-    box-shadow: 0px 15px 10px -5px #7392B7;
-    transition: 0.3s;
-}
-
-.button:hover {
-    background: #94B3C7;
-    color: #D8E1E9;
-}
-
-.button:active {
-    background: #7392B7;
-    box-shadow: 0px 8px 11px 1px #6986A8;
-    transition: 0.1s;
-}
-.comment-button {
-    position: absolute;
-    right: 10px;
-    bottom: 20px;
-}
-.little-button {
-    font-size: 20px;
-    width: 150px;
-    margin: 0.5%;
-    padding: 1px;
-}
-.notification {
+.footer{
+  background-color: #D1E5F0;
+  padding: 20px 0px;
+  margin: 0 0;
   position: relative;
-}
-.notification .badge {
-    position: absolute;
-    font-size: 10px;
-    top: 2px;
-    right: -15px;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background-color: red;
-    color: white;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 150px;
 }
 
+/* h1 */
+h1{
+    font-size: 75px;
+}
+/* p */
+p{
+    font-size: 30px;
+}
 /* Content */
 .content {
-    max-width: 900px;
+    max-width: 1000px;
     margin: auto;
+
+    min-height: 100%;
+    /* Equal to height of footer */
+    /* But also accounting for potential margin-bottom of last child */
+    margin-bottom: -150px;
+}
+/* Two Rows */
+.row2 {
+  height: 100%;
+  width: 50%;
+  display: inline-block;
+  float: left;
+}
+.row2-70 {
+  width: 70%;
+  float: left;
+}
+.row2-30 {
+  width: 30%;
+  float: left;
 }
 
-.tb-margin {
-    margin: 3% 0;
-}
 
-
-/* News */
-.news {
-    margin-left: 3%;
-    margin-right: 3%;
-}
-
-.news-block {
-    text-decoration: none;
-    color: #141B41;
-
-}
-.preview {
-transition: 0.2s;
-    margin: 1vh;
-}
-.preview:hover {
-    transition: 0.2s;
-    border-radius: 12px;
-    box-shadow: 0px 6px 11px 2px #6986A8;
-    padding: 0 1vh 2vh 1vh;
-    margin: 0;
-
-}
-.preview:active {
-    transition: 0.2s;
-    border-radius: 12px;
-    box-shadow: 0px 2px 4px 0px #6986A8;
-    padding: 0 1vh 2vh 1vh;
-    margin: 0;
-    background-color: #CBD7E2;
-}
-
-/* profile orders preview*/
-.preview-orders {
-    transition: 0.2s;
-    margin: 1vh;
-    border-radius: 12px;
-    box-shadow: 0px 2px 4px 0px #6986A8;
-    padding: 0 1vh 2vh 1vh;
-
-}
-.preview-orders:hover {
-    transition: 0.2s;
-    border-radius: 12px;
-    box-shadow: 0px 6px 11px 2px #6986A8;
-    padding: 0 1vh 2vh 1vh;
-    margin: 0;
-    background-color: #CBD7E2;
-}
-.unread {
-    background-color: #F49390;
-}
-
-.article {
-    margin: 1% 5% 0;
-
-}
-
-/* input */
-.input-textbox {
-    border: 1px solid #B3C5D7;
-    border-radius: 6px;
-    font-size: 20px;
-    padding: 1vh;
-    margin: 10px;
-    width: 30vw;
-    min-width: 350px;
-    min-height: 35px;
-    font-family: Nunito, sans-serif;
-}
-
-.input-textbox:focus-visible {
-    outline: none;
-    border: 2px solid #799FB9;
-}
-
-.input-textbox-90{
-    width: 90%;
-    font-family: Nunito, sans-serif;
-}
-.input-textbox-150{
-    height: 150px;
-    width: 500px;
-    min-width: 500px;
-    max-width: 500px;
-    min-height: 150px;
-    font-family: Nunito, sans-serif;
-}
-
-/* hr Horizontal Line */
-hr {
-    color: #012622;
-    background-color: #012622;
-    height: 0.4px;
-    border-style: solid;
-}
-
-/* a tag */
-a {
-    text-decoration: none;
-    color: #759EB8;
-}
-
-/* comment */
-.comment-form{
-
-}
-.comment {
-    border-radius: 12px;
-    box-shadow: 0px 6px 11px 2px #6986A8;
-    padding: 1vh 2vh;
-    margin: 2.5vh 1vw;
-}
-
-.your-comment{
-    border: solid #6986a8;
-    border-radius: 12px;
-    box-shadow: 8px 2px 10px -3px #799FB9;
-    padding: 1vh 2vh;
-    margin: 2% 0% 2% 25%;
-
-}
-.not-your-comment{
-    border: solid #6986a8;
-    border-radius: 12px;
-    box-shadow: -8px 4px 10px -3px #799FB9;
-    padding: 1vh 2vh;
-    margin: 2% 25% 2% 0%;
-    width: auto;
-}
-
-/* add-comments */
-.add-comments {
-    border-radius: 12px;
-    box-shadow: 0px 3px 5px 1px #6986A8;
-    padding: 1vh 2vh;
-    margin: 2.5vh 1vw;
-    position: relative;
-}
-
-/* 4 rows */
 .column {
   float: left;
   width: 25%;
 }
-
 .row:after {
   content: "";
   display: table;

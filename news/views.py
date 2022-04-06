@@ -4,28 +4,28 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 from rest_framework import generics
 
-from news.forms import AddingNewsForm, NewsCommentForm
+from news.forms import AddingNewsForm, NewsCommentForm, LikeForm
 from news.models import News
 from news.serializer import NewsSerializer
-from news.services.services import get_unique_slug, change_stars_grading
+from news.services.services import get_unique_slug
 from service.models import Services
-
-
 # Create your views here.
 from service.services import get_notifications_count
 
 
 def home(request):
-    services = Services.objects.all()
     context = dict()
-
+    import time
+    start_time = time.time()
     context.update(get_notifications_count(request.user))
-    context.update({"title": 'Home page', 'nav_active': 'home', 'services': services})
+    print(time.time() - start_time)
+    context.update({"title": 'Home page', 'nav_active': 'home', 'block_content': 'full_screen', })
     return render(request, 'news/home.html', context=context)
 
 
 class NewsPage(ListView):
     model = News
+    queryset = News.objects.all().prefetch_related('users_who_liked')
     template_name = 'news/news.html'
     context_object_name = 'news'
     extra_context = {"title": 'News page', 'nav_active': 'news'}
@@ -43,6 +43,7 @@ def article(request, article_slug):
 
     user = request.user
     form = None
+    like_form = None
     context = dict()
 
     context.update(get_notifications_count(request.user))
@@ -50,22 +51,33 @@ def article(request, article_slug):
     if user.is_authenticated:
         if request.method == "POST":
             form = NewsCommentForm(request.POST)
+            like_form = LikeForm(article_data, user, request.POST)
             if form.is_valid():
                 comment = form.save(commit=False)
                 comment.author = user
                 comment.news = article_data
                 comment.save()
-                form = NewsCommentForm()
-                change_stars_grading(article_data)
+                return redirect(to='article', article_slug=article_slug)
+            if like_form.is_valid():
+                like = like_form.cleaned_data['like']
+                if like:
+                    article_data.users_who_liked.add(user)
+                    article_data.save()
+                else:
+                    article_data.users_who_liked.remove(user)
+                    article_data.save()
         else:
             form = NewsCommentForm()
+            like_form = LikeForm(article_data, user)
 
     context.update({
         'title': f'{article_data.title}',
         'nav_active': 'news',
         'article_data': article_data,
         'form': form,
+        'like_form': like_form,
         'comments': comments,
+        'block_content': 'full_screen',
     })
     return render(request, 'news/article.html', context=context)
 

@@ -1,0 +1,13 @@
+.service {
+    margin: 100px 0 300px;
+}
+.service h1{
+    text-align: center;
+}
+.service p{
+    text-align: center;
+    font-weight: 200;
+}
+.service form{
+    text-align: center;
+}

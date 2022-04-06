@@ -7,7 +7,7 @@ class NewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = News
-        fields = ('title', 'slug', 'datetime', 'author', 'text', 'stars', 'absolute_url')
+        fields = ('title', 'slug', 'datetime', 'author', 'text', 'absolute_url')
 
     def get_absolute_url(self, obj):
         return obj.get_absolute_url()

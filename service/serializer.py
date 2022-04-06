@@ -28,6 +28,7 @@ class OrdersSerializer(serializers.ModelSerializer):
         slug_field='username',
      )
     is_user_read = serializers.SerializerMethodField()
+    data_start = serializers.DateTimeField(format='%Y %b %d, %H:%M')
 
     class Meta:
         model = Orders

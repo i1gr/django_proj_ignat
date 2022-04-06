@@ -1,17 +1,27 @@
-{% extends 'news/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'news/css/order.css' %}" type="text/css" />
 
-    <div class="header">
-        <h1>{{ title }}</h1>
+    <div class="order-info">
+        <div class="header">
+            <h1>{{ title }}</h1>
+            <p>{{order_data.get_kanban_type_display}}</p>
+        </div>
+
+        <div class="order-data">{{order_data.text|linebreaks}}</div>
+
+        <div class="row2">
+            <p>Executor: {{order_data.executor.username}}</p>
+            <p>Customer: {{order_data.customer.username}}</p>
+        </div>
+        <div class="row2" style="float: right">
+            <p class="date">{{order_data.data_start}}</p>
+            <p class="date">{{order_data.data_end}}</p>
+        </div>
     </div>
-    <h3>{{order_data.get_kanban_type_display}}</h3>
 
-    <p class="date">Order date {{order_data.data_start}}</p>
-    <p class="date">Estimated order completion date {{order_data.data_end}}</p>
-    <p>Executor: {{order_data.executor}}</p>
-    <p>Customer: {{order_data.customer}}</p>
-    <p>{{order_data.text}}</p>
 
 
     {% if request.user.is_staff %}
@@ -37,26 +47,21 @@
     <div class="add-comments">
         <form method="post">
             {% csrf_token %}
-            <p>{{ comment_form.text }}<button class="button comment-button" type="submit">Comment</button></p>
+            <div>{{ comment_form.text }}</div>
             <p> {{ comment_form.errors }}</p>
+            <button class="button comment-button button-main" type="submit">Comment</button>
+
         </form>
     </div>
 
     <div class="comments">
         {% for comment in comments_data %}
-            {% if comment.author == request.user %}
-                <div class="your-comment">
-                    <h4 class="author">{{ comment.author.username }}</h4>
-                    <p class="text">{{ comment.text }}</p>
-                    <p class="date">{{ comment.datetime }}</p>
-                </div>
-            {% else %}
-                <div class="not-your-comment">
-                    <h4 class="author">{{ comment.author.username }}</h4>
-                    <p class="text">{{ comment.text }}</p>
-                    <p class="date">{{ comment.datetime }}</p>
-                </div>
-            {% endif %}
+            <div class="{% if request.user == comment.author %}my-comment{% else %}comment{% endif %}">
+                <p class="text">{{ comment.text }}</p>
+                <p class="author row2">{{ comment.author.username }}</p>
+                <p class="date row2">{{ comment.datetime|date:"F, j, G:i" }}</p>
+            </div>
+
 
         {% endfor %}
     </div>

@@ -1,8 +1,8 @@
-from django.shortcuts import render
 from rest_framework import generics
 
 from .models import Profile
 from .serializer import ProfileSerializer
+
 
 # Create your views here.
 

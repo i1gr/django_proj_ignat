@@ -12,6 +12,7 @@ import Profile from "./Profile";
 import AdminProfile from "./AdminProfile";
 import Service from "./Service";
 import KanbanBoard from "./KanbanBoard";
+import Orders from "./Orders";
 
 class App extends Component {
     render(){
@@ -23,6 +24,7 @@ class App extends Component {
                 <Route path="/accounts/admin-profile/" element={<AdminProfile/>} />
                 <Route path="/kanban/" element={<KanbanBoard/>} />
                 <Route path="/accounts/service/:slug" element={<Service/>} />
+                <Route path="/orders/" element={<Orders/>} />
             </Routes>
             </BrowserRouter>
             </div>

@@ -1,0 +1,39 @@
+.preview {
+    border-radius: 15px;
+    padding: 70px 70px 110px;
+    margin: 70px auto;
+    border: 1px solid #000000;
+
+    transition: 0.3s;
+    box-shadow: 0px 15px 20px -3px #AAAAAA;
+}
+.preview h1 {
+    margin: 0;
+    font-size: 75px;
+}
+.preview .article {
+    margin: 70px 0;
+    font-size: 30px;
+}
+.preview .article-info{
+    margin: 0;
+}
+.article-info p{
+    margin: 0;
+    font-weight: 200;
+    font-size: 24px;
+}
+.date {
+    text-align: right;
+    font-size: 24px;
+}
+.preview:hover {
+    transform: scale(1.01); /* Equal to scaleX(0.7) scaleY(0.7) */
+    transition: 0.2s;
+    box-shadow: 0px 22px 20px -3px #AAAAAA;
+}
+.preview:active {
+    transition: 0.1s;
+    transform: scale(0.99);
+    box-shadow: 0px 3px 8px 3px rgba(0, 0, 0, 0.33);
+}

@@ -11,7 +11,6 @@ export default class Profile extends Component {
         return(
         <div>
             <ProfileDetails />
-            <ProfileCustomerOrders />
         </div>
         );
     }

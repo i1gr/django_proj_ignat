@@ -1,0 +1,36 @@
+.message {
+    background: #EAE8E1;
+    margin: 50px 0;
+    padding: 40px 40px 100px;
+    border-radius: 15px;
+    box-shadow: 0px 7px 17px #00000040;
+    transition: 0.2s;
+}
+.message:hover {
+    transition: 0.2s;
+    transform: scale(1.03);
+}
+.message:active {
+    transition: 0.2s;
+    transform: scale(1);
+}
+.message.unread {
+    background: #D5CAC3;
+}
+.message h2 {
+    margin:0;
+    font-size: 50px;
+}
+.kanban {
+    font-weight: 200;
+    font-size: 30px;
+}
+.user {
+    font-weight: 200;
+    font-size: 24px;
+}
+.date {
+    text-align: right;
+    font-weight: 200;
+    font-size: 24px;
+}

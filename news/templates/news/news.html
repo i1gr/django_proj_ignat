@@ -1,21 +1,27 @@
-{% extends 'news/base.html' %}
+
+{% extends 'base.html' %}
+
 
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'news/css/news.css' %}" type="text/css" />
 
-    <div class="header">
-        <h1>News</h1>
-        {% if request.user.is_staff %}
-                <a href="{% url 'add_news' %}">Add News</a>
-        {% endif %}
-    </div>
 
     <div class="news">
         {% for n in news %}
             <a class="news-block" href="{{ n.get_absolute_url }}">
                 <div class="preview">
                     <h1>{{ n.title }}</h1>
-                    <p class="date">{{ n.datetime }}</p>
-                    <div class="article">{{ n.text }}</div>
+
+                    <div class="article">{{ n.text|linebreaksbr|truncatewords:79 }}</div>
+                    <div class="article-info">
+                        <p class="row2">
+                            {% load static %}
+                            <img src="{% static 'news/images/unlike.png' %}"  alt="Flowers in Chania" width="24" height="24">
+                            <span style="padding: 0 10px;">{{ n.users_who_liked.all.count }}</span>
+                        </p>
+                        <p class="date row2">{{ n.datetime }}</p>
+                    </div>
                 </div>
             </a>
 

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'news/css/home.css' %}" type="text/css" />
+
+
+
+<div class="container">
+        <section class="background-image" style="background-image: url({% static 'news/images/main.jpeg' %});">
+            <div class="info text-black ">
+                <h1>Umbrella Company</h1>
+                <p>
+                    An umbrella company is a company that employs agency contractors who work on temporary contract assignments, usually through a recruitment agency in the United Kingdom. Recruitment agencies prefer to issue contracts to a limited company as the agency liability would be reduced.
+                </p>
+            </div>
+        </section>
+        <section class="background-image" style="background-image: url({% static 'news/images/second.jpeg' %});">
+            <div class="text-center  text-black">
+                <h1>We make the best umbrellas</h1>
+                <p>Quality, Style, Price</p>
+            </div>
+        </section>
+        <section class="background-image" style="background-image: url({% static 'news/images/folds.jpg' %});">
+            <div class="text-center text-black">
+                <h1>Withstand 2,000,000 folds</h1>
+                <p>which is about 550 additions per day if you use an umbrella for 10 years</p>
+            </div>
+        </section>
+        <section class="background-image" style="background-image: url({% static 'news/images/120.jpeg' %});">
+            <div class="text-center text-black last">
+                <h1>120 kilometers per hour</h1>
+                <p>wind speed at which our umbrellas remain intact</p>
+            </div>
+
+        </section>
+
+</div>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'news/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 
@@ -12,4 +12,6 @@
 {% block loadjs %}
     {% load static %}
     <script src="{% static 'frontend/main.js' %}"></script>
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'news/css/orders.css' %}" type="text/css" />
 {% endblock %}

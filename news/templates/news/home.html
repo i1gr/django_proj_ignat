@@ -1,35 +1,96 @@
-{% extends 'news/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'news/css/base.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'news/css/home.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'news/css/button.css' %}" type="text/css" />
+</head>
+<body>
 
-{% block content %}
+    <div class="container">
+        <section class="background-image main" style="background-image: url({% static 'news/images/main.jpeg' %}); position: relative;">
+            <nav class="nav">
+            <ul>
+                <li style="float:left" class="logo">
+                    <a class="{% if nav_active == 'home' %}active{% endif %}" href="{% url 'home' %}">Umbrella Company</a>
+                </li>
 
-    <div class="info">
-        <h1>Umbrella Company</h1>
-        <p>
-            An umbrella company is a company that employs agency contractors who work on temporary contract assignments, usually through a recruitment agency in the United Kingdom. Recruitment agencies prefer to issue contracts to a limited company as the agency liability would be reduced.
-        </p>
-        <p>
-            It issues invoices to the recruitment agency (or client) and, when payment of the invoice is made, will typically pay the contractor through PAYE with the added benefit of offsetting some of the income through claiming expenses such as travel, meals, and accommodation.
-        </p>
+                {% if request.user.is_authenticated %}
+                <li><a class="{% if nav_active == 'account' %}active{% endif %} not-logo" href="{% url 'profile' %}">Account</a></li>
+                <li><a class="{% if nav_active == 'orders' %}active{% endif %} not-logo" href="{% url 'orders' %}">Orders</a></li>
+                <li><a class="{% if nav_active == 'messages' %}active{% endif %} notification not-logo" href="{% url 'messages' %}">
+                    <span>Messages</span>
+                    {% if notifications_count > 0 %}
+                        <span class="badge">{{ notifications_count }}</span>
+                    {% endif %}
+                </a></li>
+                {% else %}
+                <li><a class="{% if nav_active == 'account' %}active{% endif %} not-logo" href="{% url 'login' %}">Account</a></li>
+                {% endif %}
+                <li><a class="{% if nav_active == 'services' %}active{% endif %} not-logo" href="{% url 'services' %}">Services</a></li>
+                <li><a class="{% if nav_active == 'news' %}active{% endif %} not-logo" href="{% url 'news' %}">News</a></li>
+
+
+
+
+
+
+            </ul>
+        </nav>
+            <div class="info text-black">
+                <h1 style="margin: 10vh 0;">Umbrella Company</h1>
+                <p style="max-width: 900px;">
+                    An umbrella company is a company that employs agency contractors who work on temporary contract assignments, usually through a recruitment agency in the United Kingdom. Recruitment agencies prefer to issue contracts to a limited company as the agency liability would be reduced.
+                </p>
+            </div>
+            <div style="margin: 40px auto; text-align: center; position: absolute; left: 0; bottom: 0;">
+                    <a href="{% url 'news' %}" class="button button-opacity" style="margin: 40px;">Go to News</a>
+                    <a href="{% url 'services' %}" class="button button-opacity" style="margin: 40px;">Go to Services</a>
+        </section>
+        <section class="background-image" style="background-image: url({% static 'news/images/second.jpeg' %}); position: relative;">
+            <div class="text-center text-black">
+                <h1>We make the best umbrellas</h1>
+                <p>quality, style, price</p>
+            </div>
+            <div style="margin: 40px auto; text-align: center; position: absolute; left: 0; bottom: 0;">
+                    <a href="{% url 'news' %}" class="button button-opacity" style="margin: 40px;">Go to News</a>
+                    <a href="{% url 'services' %}" class="button button-opacity" style="margin: 40px;">Go to Services</a>
+            </div>
+        </section>
+        <section class="background-image" style="background-image: url({% static 'news/images/folds.jpg' %}); position: relative;">
+            <div class="text-center text-black">
+                <h1>Withstand 2,000,000 folds</h1>
+                <p>which is about 550 additions per day if you use an umbrella for 10 years</p>
+            </div>
+            <div style="margin: 40px auto; text-align: center; position: absolute; left: 0; bottom: 0;">
+                    <a href="{% url 'news' %}" class="button button-opacity" style="margin: 40px;">Go to News</a>
+                    <a href="{% url 'services' %}" class="button button-opacity" style="margin: 40px;">Go to Services</a>
+            </div>
+        </section>
+        <section class="background-image" style="background-image: url({% static 'news/images/wind.jpeg' %}); position: relative;">
+            <div class="text-center text-black last">
+                <h1>120 kilometers per hour</h1>
+                <p>wind speed at which our umbrellas remain intact</p>
+            </div>
+            <div style="margin: 40px auto; text-align: center; position: absolute; left: 0; bottom: 0;">
+                    <a href="{% url 'news' %}" class="button button-opacity" style="margin: 40px;">Go to News</a>
+                    <a href="{% url 'services' %}" class="button button-opacity" style="margin: 40px;">Go to Services</a>
+            </div>
+        </section>
     </div>
 
 
 
-    <div class="service">
-        {% for service in services %}
-            <h1>{{ service.name }}</h1>
-
-            <p>
-                {{ service.text }}
-            </p>
-            <p>Run time - {{ service.run_time}}</p>
-            <form action="{{ service.get_absolute_url }}">
-                <button class="button">
-                    {{ service.price }} $
-                </button>
-            </form>
-        {% endfor %}
 
 
-    </div>
 
-{% endblock %}
+
+
+
+</body>
+    {% block loadjs %}
+    {% endblock %}
+</html>

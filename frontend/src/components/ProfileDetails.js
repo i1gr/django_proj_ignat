@@ -43,6 +43,7 @@ export default class ProfileDetails extends Component {
                     return "You are ordinary user"
                 })()
             }</p>
+            <a className='button' href="/accounts/logout/">Logout</a>
         </div>
         );
     }

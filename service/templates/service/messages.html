@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load service_tags %}>
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'news/css/messages.css' %}" type="text/css" />
+
+
+
+    {% for message in messages %}
+        {% is_user_read request.user message as user_like %}
+        <a href="{{ message.get_absolute_url }}">
+            <div class="message {% if not user_like %} unread {% endif %}">
+                <h2>{{ message.name }}</h2>
+                <p class="kanban">{{ message.get_kanban_type_display }}</p>
+                <div class="row2">
+                    {% if request.user.is_staff %}
+                    <p class="user">{{message.customer.username}}</p>
+                    {% else %}
+                        <p class="user">{{message.executor.username}}</p>
+                    {% endif %}
+                </div>
+                <div class="row2" style="float: right">
+                    <p class="date">{{message.data_start}}</p>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+
+
+
+{% endblock %}

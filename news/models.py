@@ -6,12 +6,12 @@ from users.models import Profile
 
 # Create your models here.
 class News(models.Model):
-    title = models.CharField(max_length=255, unique=True)
+    title = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(unique=True)
     author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True,)
     datetime = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
-    stars = models.FloatField(default=5, blank=True)
+    users_who_liked = models.ManyToManyField(Profile, related_name='liked_news', blank=True)
 
     class Meta:
         ordering = ["-datetime"]
@@ -24,17 +24,15 @@ class News(models.Model):
 
 
 class NewsComments(models.Model):
-    title = models.CharField(max_length=255)
     author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
-    datetime = models.DateTimeField(auto_now_add=True)
+    datetime = models.DateTimeField(auto_now_add=1)
     text = models.TextField()
-    stars = models.IntegerField()
     news = models.ForeignKey(News, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         ordering = ["-datetime"]
 
     def __str__(self):
-        return str(self.title) + '\n\t' + str(self.text)
+        return str(self.text)
 
 
