@@ -26,25 +26,22 @@ def make_order(request, service_slug):
     service_data = get_object_or_404(Services, slug=service_slug)
     user = request.user
     context = dict()
+    order_form = None
+    question_form = None
 
     context.update(get_notifications_count(user))
 
-    if not user.is_authenticated:
-        return redirect(to='login')
-
     if request.method == "POST":
+        if not user.is_authenticated:
+            return redirect(to='login')
         order_form = OrderForm(request.POST)
         question_form = QuestionForm(request.POST)
-        print(order_form.is_valid())
-        print(question_form.is_valid())
+
         if order_form.is_valid() and 'order_button' in request.POST:
-            print(order_form)
-            print(order_form.is_valid())
             order = order_form.save(commit=False)
             order.service = service_data
             order.customer = user
             order.save()
-            # ????????????????????????????????????????????
             order.name = str(service_data.name) + ' #' + str(order.pk)
             order.save()
             return redirect('make_order_successful')
@@ -54,10 +51,8 @@ def make_order(request, service_slug):
             question.service = service_data
             question.customer = user
             question.save()
-            # ????????????????????????????????????????????
             question.name = 'Question: ' + str(service_data.name) + ' #' + str(question.pk)
             question.save()
-            print(question)
             return redirect('messages')
     else:
         order_form = OrderForm()
@@ -141,9 +136,10 @@ class OrdersApiKanbanForExecutor(generics.ListAPIView):
 
 def order_page(request, order_id):
     order_data = get_object_or_404(
-        Orders.objects.select_related('executor', 'customer').prefetch_related(Prefetch('ordercomments_set',
-                                       queryset=OrderComments.objects.all().order_by('-datetime')
-                                       .select_related('author'))), pk=order_id)
+        Orders.objects.select_related('executor', 'customer').prefetch_related(
+            Prefetch('ordercomments_set',
+                     queryset=OrderComments.objects.all().order_by('-datetime').select_related('author'))),
+        pk=order_id)
     comments_data = order_data.ordercomments_set.all().select_related('author')
 
     user = request.user
@@ -154,14 +150,51 @@ def order_page(request, order_id):
 
     kanban_form = None
     executor_form = None
+    comment_form = None
 
     if not user.is_authenticated:
         return redirect(to='login')
     if user != order_data.customer and not user.is_staff:
         return redirect(to='home')
 
-    if user.is_staff:
-        if request.method == "POST":
+    match request.method:
+        case 'POST':
+            comment_form = OrderCommentsForm(request.POST)
+
+            if user.is_staff:
+                kanban_form = KanbanSelectForm(order_data, request.POST)
+                executor_form = ExecutorSelectForm(user, request.POST)
+
+                if kanban_form.is_valid():
+                    order_data.kanban_type = kanban_form.cleaned_data['kanban_type']
+                    order_data.save()
+                    return redirect(to=order_data)
+
+                if executor_form.is_valid():
+                    order_data.executor = executor_form.cleaned_data['executor']
+                    order_data.save()
+                    return redirect(to=order_data)
+
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.author = user
+                comment.order = order_data
+                comment.save()
+                make_unread(order_data)
+                return redirect(to=order_data)
+        case _:
+            if user.is_staff:
+                kanban_form = KanbanSelectForm(order_data)
+                executor_form = ExecutorSelectForm(user)
+            comment_form = OrderCommentsForm()
+
+    ''' 
+    vs 
+    
+    if request.method == "POST":
+        comment_form = OrderCommentsForm(request.POST)
+
+        if user.is_staff:
             kanban_form = KanbanSelectForm(order_data, request.POST)
             executor_form = ExecutorSelectForm(user, request.POST)
 
@@ -174,12 +207,6 @@ def order_page(request, order_id):
                 order_data.executor = executor_form.cleaned_data['executor']
                 order_data.save()
                 return redirect(to=order_data)
-        else:
-            kanban_form = KanbanSelectForm(order_data)
-            executor_form = ExecutorSelectForm(user)
-
-    if request.method == "POST":
-        comment_form = OrderCommentsForm(request.POST)
 
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
@@ -187,9 +214,13 @@ def order_page(request, order_id):
             comment.order = order_data
             comment.save()
             make_unread(order_data)
-            return redirect(to=order_data)  # What is the best solution?
+            return redirect(to=order_data)
     else:
+        if user.is_staff:
+              kanban_form = KanbanSelectForm(order_data)
+              executor_form = ExecutorSelectForm(user)
         comment_form = OrderCommentsForm()
+    '''
 
     context.update({
         'title': f'{order_data.name}',
@@ -244,12 +275,15 @@ def services(request):
 def messages(request):
     user = request.user
     context = dict()
+    queryset = None
+
+    if not user.is_authenticated:
+        return redirect(to='login')
 
     if user.is_staff:
         queryset = Orders.objects.filter(Q(executor=user) | Q(executor=None))
     if not user.is_staff:
         queryset = Orders.objects.filter(customer=user)
-
 
     context.update(get_notifications_count(user))
     context.update({"title": 'Messages', 'nav_active': 'messages', 'messages': queryset})
@@ -271,15 +305,15 @@ class MessagesListView(ListView):
 
     def get_queryset(self):
         user = self.request.user
+        queryset = None
         if user.is_staff:
-            # queryset = Orders.objects.filter(Q(executor=user) | Q(executor=None)).select_related('executor')
             queryset = Orders.objects.filter(customer=user).prefetch_related(
                 Prefetch('ordercomments_set',
                          queryset=OrderComments.objects.all().order_by('-datetime').select_related(
                              'author'))).select_related('customer')
         if not user.is_staff:
-            # queryset = Orders.objects.filter(customer=user).select_related('customer').select_related('executor')
             queryset = Orders.objects.filter(customer=user).prefetch_related(
                 Prefetch('ordercomments_set',
-                         queryset=OrderComments.objects.all().order_by('-datetime').select_related('author'))).select_related('executor')
+                         queryset=OrderComments.objects.all().order_by('-datetime').select_related(
+                             'author'))).select_related('executor')
         return queryset

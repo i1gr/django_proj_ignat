@@ -1,18 +1,15 @@
-# I don't know how to name this python file :((((((((
 from random import randrange
 
-import django
 from django.core.exceptions import ValidationError
+from django.db.models.base import ModelBase
 from django.utils.text import slugify
 
 from news.models import NewsComments
 from users.models import Profile
 
 
-def get_unique_slug(instance: django.db.models.base.ModelBase, field_to_slug_gen: str, slug=None) -> str:
+def get_unique_slug(instance: ModelBase, field_to_slug_gen: str, slug=None) -> str:
     """Return unique slug. field_to_slug_gen is the field that is used to generate slug"""
-    print(f"{type(instance)=}")
-    print(f"{type(field_to_slug_gen)=}")
     if slug:
         slug += str(randrange(10))
     else:
@@ -24,7 +21,7 @@ def get_unique_slug(instance: django.db.models.base.ModelBase, field_to_slug_gen
     return get_unique_slug(instance, slug)
 
 
-def _is_slug_unique(instance: django.db.models.base.ModelBase, slug: str) -> bool:
+def _is_slug_unique(instance: ModelBase, slug: str) -> bool:
     obj = type(instance).objects.filter(slug=slug)
     if obj:
         return False

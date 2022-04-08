@@ -39,7 +39,6 @@ class Profile(AbstractUser):
         error_messages={
             'unique': _("A user with that username already exists."),
         },)
-    # likes = models.ForeignKey("news.News", on_delete=models.SET_NULL, null=True)
 
     objects = MyUserManager()
 

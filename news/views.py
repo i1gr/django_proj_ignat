@@ -8,17 +8,12 @@ from news.forms import AddingNewsForm, NewsCommentForm, LikeForm
 from news.models import News
 from news.serializer import NewsSerializer
 from news.services.services import get_unique_slug
-from service.models import Services
-# Create your views here.
 from service.services import get_notifications_count
 
 
 def home(request):
     context = dict()
-    import time
-    start_time = time.time()
     context.update(get_notifications_count(request.user))
-    print(time.time() - start_time)
     context.update({"title": 'Home page', 'nav_active': 'home', 'block_content': 'full_screen', })
     return render(request, 'news/home.html', context=context)
 
