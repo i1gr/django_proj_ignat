@@ -32,12 +32,6 @@
                 {% endif %}
                 <li><a class="{% if nav_active == 'services' %}active{% endif %} not-logo" href="{% url 'services' %}">Services</a></li>
                 <li><a class="{% if nav_active == 'news' %}active{% endif %} not-logo" href="{% url 'news' %}">News</a></li>
-
-
-
-
-
-
             </ul>
         </nav>
             <div class="info text-black">
@@ -49,6 +43,7 @@
             <div style="margin: 40px auto; text-align: center; position: absolute; left: 0; bottom: 0;">
                     <a href="{% url 'news' %}" class="button button-opacity" style="margin: 40px;">Go to News</a>
                     <a href="{% url 'services' %}" class="button button-opacity" style="margin: 40px;">Go to Services</a>
+            </div>
         </section>
         <section class="background-image" style="background-image: url({% static 'news/images/second.jpeg' %}); position: relative;">
             <div class="text-center text-black">
