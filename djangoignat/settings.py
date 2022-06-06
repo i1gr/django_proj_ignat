@@ -84,14 +84,27 @@ WSGI_APPLICATION = 'djangoignat.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# For console run
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': proj_credits.DB_NAME,
+#         'USER': proj_credits.DB_USER,
+#         'PASSWORD': proj_credits.DB_PASSWORD,
+#         'HOST': proj_credits.DB_HOST,
+#         'PORT': proj_credits.DB_PORT,
+#     }
+# }
+
+# for docker
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': proj_credits.DB_NAME,
-        'USER': proj_credits.DB_USER,
-        'PASSWORD': proj_credits.DB_PASSWORD,
-        'HOST': proj_credits.DB_HOST,
-        'PORT': proj_credits.DB_PORT,
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
