@@ -1,6 +1,8 @@
 version: "3.7"
 
 services:
+  redis:
+    image: redis
   db:
     image: postgres
     volumes:
@@ -22,3 +24,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+  worker:
+    build: .
+    command: ['celery', '--workdir=.', '-A', 'djangoignat', 'worker']
+

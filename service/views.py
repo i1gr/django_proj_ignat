@@ -11,6 +11,7 @@ from rest_framework import generics, filters
 
 from service.serializer import ServicesSerializerWithoutOrders, OrdersSerializer
 from service.services import make_read, make_unread, get_notifications_count
+from service.tasks import send_mails_after_order
 
 
 def make_order_successful(request):
@@ -44,6 +45,7 @@ def make_order(request, service_slug):
             order.save()
             order.name = str(service_data.name) + ' #' + str(order.pk)
             order.save()
+            send_mails_after_order.delay(request.user.id)
             return redirect('make_order_successful')
 
         if question_form.is_valid() and 'question_button' in request.POST:
@@ -266,7 +268,7 @@ def add_service(request):
 def services(request):
     services_queryset = Services.objects.all()
     context = dict()
-
+    
     context.update(get_notifications_count(request.user))
     context.update({"title": 'Services', 'nav_active': 'services', 'services': services_queryset})
     return render(request, 'service/services.html', context=context)
